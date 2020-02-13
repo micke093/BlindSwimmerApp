@@ -1,4 +1,4 @@
-package com.example.bluetoothsniffer;
+package com.example.BlindSwimmerApp;
 
 import android.Manifest;
 import android.app.Activity;

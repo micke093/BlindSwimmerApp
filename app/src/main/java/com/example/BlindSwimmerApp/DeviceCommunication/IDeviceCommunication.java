@@ -1,4 +1,4 @@
-package com.example.bluetoothsniffer.DeviceCommunication;
+package com.example.BlindSwimmerApp.DeviceCommunication;
 
 public interface IDeviceCommunication<E> {
 

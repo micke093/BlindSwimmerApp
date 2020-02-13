@@ -1,11 +1,10 @@
-package com.example.bluetoothsniffer;
+package com.example.BlindSwimmerApp;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bluetoothsniffer.DeviceCommunication.ArduinoBLECommunication;
-import com.example.bluetoothsniffer.DeviceCommunication.IDeviceCommunication;
-
-import java.util.List;
+import com.example.BlindSwimmerApp.DeviceCommunication.ArduinoBLECommunication;
+import com.example.BlindSwimmerApp.DeviceCommunication.IDeviceCommunication;
 
 /**
  * This is where we manage the BLE device and the corresponding services, characteristics et c.

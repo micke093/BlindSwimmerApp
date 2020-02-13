@@ -1,4 +1,4 @@
-package com.example.bluetoothsniffer.BluetoothCallbacks;
+package com.example.BlindSwimmerApp.BluetoothCallbacks;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -6,8 +6,8 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.util.Log;
 
-import com.example.bluetoothsniffer.DeviceCommunication.ArduinoBLECommunication;
-import com.example.bluetoothsniffer.DeviceCommunication.IDeviceCommunication;
+import com.example.BlindSwimmerApp.DeviceCommunication.ArduinoBLECommunication;
+import com.example.BlindSwimmerApp.DeviceCommunication.IDeviceCommunication;
 
 import java.util.List;
 

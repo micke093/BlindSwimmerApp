@@ -1,4 +1,4 @@
-package com.example.bluetoothsniffer.DeviceCommunication;
+package com.example.BlindSwimmerApp.DeviceCommunication;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
