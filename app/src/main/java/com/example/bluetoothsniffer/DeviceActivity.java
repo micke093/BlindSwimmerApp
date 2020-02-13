@@ -1,5 +1,6 @@
 package com.example.bluetoothsniffer;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -17,6 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.bluetoothsniffer.DeviceCommunication.ArduinoNano33BLECommunication;
+import com.example.bluetoothsniffer.DeviceCommunication.IDeviceCommunication;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,23 +50,14 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private Button trainButton;
     private Button submitSensorButton;
 
-    private String deviceName;
-
-    public static final UUID ACCELEROMETER_SERVICE_UUID =
-            UUID.fromString("E95D0753-251D-470A-A062-FA1922DFA9A8");
-    public static final UUID ACCELEROMETER_DATA_CHARACTERISTIC_UUID =
-            UUID.fromString("E95DCA4B-251D-470A-A062-FA1922DFA9A8");
-    public static final UUID ACCELEROMETER_PERIOD_CHARACTERISTIC_UUID =
-            UUID.fromString("E95DFB24-251D-470A-A062-FA1922DFA9A8");
-    public static final UUID CLIENT_CHARACTERISTIC_CONFIG =
-            UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-
     private BluetoothDevice mConnectedDevice = null;
     private BluetoothGatt mBluetoothGatt = null;
-    private BluetoothGattService mAccelerometerService = null;
 
     private Handler mHandler;
 
+    private IDeviceCommunication deviceCommunication = null;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
@@ -71,18 +66,14 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
             if(mDeviceName != null)
             {
                 mDeviceName.setText(mConnectedDevice.getName());
-
                 if(mConnectedDevice.getName() == null)
                 {
                     mDeviceName.setText("No set name (null)");
                 }
-
                 //get the RSSI value
                 mDeviceRSSI.setText("" + getIntent().getExtras().getInt("RSSIValue", 0));
-                deviceName = (String) getIntent().getExtras().get("deviceName");
-
+                String deviceName = (String) getIntent().getExtras().get("deviceName");
                 System.out.println("Device name är: " + deviceName);
-
                 mDeviceOtherInfo.setText("None");
                 connect();
             }
@@ -174,61 +165,13 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        public void onDescriptorWrite(final BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-            Log.d(TAG, "onDescriptorWrite: descriptor " + descriptor.getUuid());
-            Log.d(TAG, "onDescriptorWrite: status " + status);
-//            mHandler.post(new Runnable() {
-//                public void run() {
-//                    enableAccelerometerDataNotifications(gatt);
-//                }
-//            });
-            if (CLIENT_CHARACTERISTIC_CONFIG.equals(descriptor.getUuid()) && status == BluetoothGatt.GATT_SUCCESS) {
-
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        showToast("Acc-data notifications enabled");
-                        //mDeviceName.setText("Accelerometer service");
-                    }
-                });
-            }
-        }
-
-        /**
-         * Call back called on characteristic changes, e.g. when a data value is changed.
-         * This is where we receive notifications on updates of accelerometer data.
-         */
-        @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            Log.d(TAG, "onCharacteristicChanged" + characteristic.getUuid().toString());
-            // TODO: check which service and characteristic caused this call (in this simple
-            // example we assume it's the accelerometer sensor)
-            BluetoothGattCharacteristic irDataConfig = mAccelerometerService.getCharacteristic(ACCELEROMETER_DATA_CHARACTERISTIC_UUID);
-            final byte[] value = irDataConfig.getValue();
-            // update ui
-            mHandler.post(new Runnable() {
-                public void run() {
-
-
-                }
-            });
-        }
-
-        @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             Log.d(TAG, characteristic.getUuid().toString());
         }
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            byte[] bytesReceived = characteristic.getValue();
-
-            String strReceived = "";
-            for (int i = 0; i < bytesReceived.length; i++) {
-                strReceived = strReceived + (char) bytesReceived[i];
-            }
-
-            Log.d(TAG, "characteristic: "  + strReceived);
-            Log.d(TAG, characteristic.getUuid().toString());
+            Log.d(TAG, "onCharacteristicRead: " + deviceCommunication.ReadFromDevice(characteristic));
         }
     };
 
@@ -258,12 +201,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         mHandler = new Handler();
 
-        System.out.println("+++++++++++++++++++++++");
-        System.out.println("+++++++++++++++++++++++");
+        deviceCommunication = new ArduinoNano33BLECommunication();
     }
-
-
-
 
     protected void showToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
@@ -280,8 +219,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         else if(v==backButton){
             startActivity(new Intent(DeviceActivity.this, MainActivity.class));
         }
-
-
 
         else if(v==submitSensorButton)
         {

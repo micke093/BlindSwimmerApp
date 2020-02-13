@@ -1,6 +1,10 @@
 package com.example.bluetoothsniffer.DeviceCommunication;
 
-public interface IDeviceCommunication {
+public interface IDeviceCommunication<E> {
 
-    public String WriteToDevice();
+    boolean WriteToDevice(E dataToSend);
+
+    String ReadFromDevice(E receivedData);
+
+    void ShowToast(E dataToDisplay);
 }
