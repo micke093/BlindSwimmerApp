@@ -13,12 +13,16 @@ import java.util.List;
 
 public class BluetoothGattCallbacks {
 
-    private BluetoothGattCallback bluetoothGattCallback;
     private static final String TAG = "BluetoothGattCallbacks";
+    private BluetoothGattCallback bluetoothGattCallback;
     private BluetoothGatt mBluetoothGatt = null;
     private IDeviceCommunication deviceCommunication;
 
-
+    /**
+     * Callbacks for bluetooth gatt changes/updates
+     * The documentation is not clear, but (some of?) the callback methods seems to
+     * be executed on a worker thread - hence use a Handler when updating the ui.
+     */
     public BluetoothGattCallbacks (){
         deviceCommunication = new ArduinoBLECommunication();
            bluetoothGattCallback = new BluetoothGattCallback() {
@@ -59,7 +63,9 @@ public class BluetoothGattCallbacks {
                        }
                        else
                        {
-                           BluetoothGattCharacteristic characteristic = gatt.getService(arduinoServices.getUuid()).getCharacteristic(arduinoServices.getUuid());
+                           BluetoothGattCharacteristic characteristic = gatt
+                                   .getService(arduinoServices.getUuid())
+                                   .getCharacteristic(arduinoServices.getUuid());
                            gatt.readCharacteristic(characteristic);
                        }
                    }
