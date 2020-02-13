@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bluetoothsniffer.BluetoothCallbacks.BluetoothGattCallbacks;
 import com.example.bluetoothsniffer.DeviceCommunication.ArduinoBLECommunication;
 import com.example.bluetoothsniffer.DeviceCommunication.IDeviceCommunication;
 
@@ -51,9 +52,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private BluetoothDevice mConnectedDevice = null;
     private BluetoothGatt mBluetoothGatt = null;
 
-    private Handler mHandler;
-
-    private IDeviceCommunication deviceCommunication = null;
+    private BluetoothGattCallbacks gattCallback;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -107,73 +106,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
      * The documentation is not clear, but (some of?) the callback methods seems to
      * be executed on a worker thread - hence use a Handler when updating the ui.
      */
-    private BluetoothGattCallback mBtGattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (newState == BluetoothGatt.STATE_CONNECTED) {
-                mBluetoothGatt = gatt;
-                gatt.discoverServices();
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        //mDataView.setText("Connected");
-                        showToast("Connected to device");
-                    }
-                });
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // close connection and display info in ui
-                mBluetoothGatt = null;
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        //mDataView.setText("Disconnected");
-                        showToast("Device disconnected");
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void onServicesDiscovered(final BluetoothGatt gatt, int status) {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-
-                // debug, list services
-
-                BluetoothGattService arduinoService = null;
-                List<BluetoothGattService> services = gatt.getServices();
-                for (BluetoothGattService service : services) {
-                    String uuid = service.getUuid().toString();
-                    Log.d(TAG, "service: " + uuid);
-
-                    //Unique for every Arduino
-                    if(uuid.equals("19b10001-e8f2-537e-4f6c-d104768a1214"))
-                    {
-                        arduinoService = service;
-                    }
-                }
-
-                if(arduinoService == null)
-                {
-                    Log.d(TAG, "Could not find a matching service UUID name..");
-                }
-                else
-                {
-                    BluetoothGattCharacteristic characteristic = gatt.getService(arduinoService.getUuid()).getCharacteristic(arduinoService.getUuid());
-                    gatt.readCharacteristic(characteristic);
-                }
-            }
-        }
-
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            Log.d(TAG, characteristic.getUuid().toString());
-        }
-
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            Log.d(TAG, "onCharacteristicRead: " + deviceCommunication.ReadFromDevice(characteristic));
-        }
-    };
-
-
+    private BluetoothGattCallback mBtGattCallback = gattCallback != null ? gattCallback.getBluetoothGattCallback() : null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,9 +130,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         backButton.setOnClickListener(this);
         trainButton.setOnClickListener(this);
 
-        mHandler = new Handler();
-
-        deviceCommunication = new ArduinoBLECommunication();
+        gattCallback = new BluetoothGattCallbacks();
     }
 
     protected void showToast(String msg) {
