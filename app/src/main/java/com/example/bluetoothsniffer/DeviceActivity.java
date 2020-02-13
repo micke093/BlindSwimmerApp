@@ -32,12 +32,7 @@ import java.util.List;
 public class DeviceActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MYTAG";
-    /**
-     * Documentation on UUID:s and such for services on a BBC Micro:bit.
-     * Characteristics et c. are found at
-     * https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html
-     */
-    // Below: gui stuff...
+
     private TextView mDeviceName;
     private TextView mDeviceOtherInfo;
     private TextView mDeviceRSSI;
@@ -90,7 +85,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         }
         ConnectedDevice.removeInstance();
         mConnectedDevice = null;
-
         finish();
     }
 
@@ -132,34 +126,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        public void onServicesDiscovered(final BluetoothGatt gatt, int status) {
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-
-                // debug, list services
-
-                BluetoothGattService arduinoService = null;
-                List<BluetoothGattService> services = gatt.getServices();
-                for (BluetoothGattService service : services) {
-                    String uuid = service.getUuid().toString();
-                    Log.d(TAG, "service: " + uuid);
-
-                    //Unique for every Arduino
-                    if(uuid.equals("19b10001-e8f2-537e-4f6c-d104768a1214"))
-                    {
-                        arduinoService = service;
-                    }
-                }
-
-                if(arduinoService == null)
-                {
-                    Log.d(TAG, "Could not find a matching service UUID name..");
-                }
-                else
-                {
-                    BluetoothGattCharacteristic characteristic = gatt.getService(arduinoService.getUuid()).getCharacteristic(arduinoService.getUuid());
-                    gatt.readCharacteristic(characteristic);
-                }
-            }
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            deviceCommunication.DeviceDiscovered(gatt);
         }
 
         @Override
