@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
@@ -19,11 +18,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bluetoothsniffer.DeviceCommunication.ArduinoNano33BLECommunication;
+import com.example.bluetoothsniffer.DeviceCommunication.ArduinoBLECommunication;
 import com.example.bluetoothsniffer.DeviceCommunication.IDeviceCommunication;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * This is where we manage the BLE device and the corresponding services, characteristics et c.
@@ -201,7 +199,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         mHandler = new Handler();
 
-        deviceCommunication = new ArduinoNano33BLECommunication();
+        deviceCommunication = new ArduinoBLECommunication();
     }
 
     protected void showToast(String msg) {

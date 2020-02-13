@@ -3,7 +3,7 @@ package com.example.bluetoothsniffer.DeviceCommunication;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.util.Log;
 
-public class ArduinoNano33BLECommunication implements IDeviceCommunication {
+public class ArduinoBLECommunication implements IDeviceCommunication {
 
     private static final String TAG = "ArduinoBLECommunication";
 

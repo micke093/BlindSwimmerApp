@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.util.Log;
 
-import com.example.bluetoothsniffer.DeviceCommunication.ArduinoNano33BLECommunication;
+import com.example.bluetoothsniffer.DeviceCommunication.ArduinoBLECommunication;
 import com.example.bluetoothsniffer.DeviceCommunication.IDeviceCommunication;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class BluetoothGattCallbacks {
 
 
     public BluetoothGattCallbacks (){
-        deviceCommunication = new ArduinoNano33BLECommunication();
+        deviceCommunication = new ArduinoBLECommunication();
            bluetoothGattCallback = new BluetoothGattCallback() {
                @Override
                public void onConnectionStateChange(BluetoothGatt gatt, int status, int State) {
