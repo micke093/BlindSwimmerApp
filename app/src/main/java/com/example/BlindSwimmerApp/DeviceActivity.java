@@ -2,13 +2,8 @@ package com.example.BlindSwimmerApp;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +26,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private static final String TAG = "MYTAG";
 
     private TextView mDeviceName;
-    private TextView mDeviceOtherInfo;
+    //private TextView mDeviceOtherInfo;
     private TextView mDeviceRSSI;
     private EditText mTextInputSensorOne;
     private EditText mTextInputSensorTwo;
@@ -40,12 +35,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private Button trainButton;
     private Button submitSensorButton;
 
-    //Move these to the arduino communication class.
+    //TODO maybe move?
     private BluetoothDevice mConnectedDevice = null;
-    private BluetoothGatt mBluetoothGatt = null;
-
-    private Handler mHandler;
-
     private IDeviceCommunication deviceCommunication = null;
 
     @SuppressLint("SetTextI18n")
@@ -64,8 +55,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
                 //get the RSSI value
                 mDeviceRSSI.setText("" + getIntent().getExtras().getInt("RSSIValue", 0));
                 String deviceName = (String) getIntent().getExtras().get("deviceName");
-                System.out.println("Device name är: " + deviceName);
-                mDeviceOtherInfo.setText("None");
+                Log.d(TAG, "Device name är: " + deviceName);
+                //mDeviceOtherInfo.setText("None");
                 connect();
             }
             else
@@ -76,73 +67,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (mBluetoothGatt != null) {
-            mBluetoothGatt.close();
-        }
-        ConnectedDevice.removeInstance();
-        mConnectedDevice = null;
-        finish();
-    }
-
-    private void connect() {
-        if (mConnectedDevice != null) {
-            // register call backs for bluetooth gatt
-            //TODO move to arduino communication class.
-            mBluetoothGatt = mConnectedDevice.connectGatt(this, false, mBtGattCallback);
-            Log.d(TAG, "connect: connectGatt called");
-        }
-    }
-
-    /**
-     * Callbacks for bluetooth gatt changes/updates
-     * The documentation is not clear, but (some of?) the callback methods seems to
-     * be executed on a worker thread - hence use a Handler when updating the ui.
-     */
-    private BluetoothGattCallback mBtGattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (newState == BluetoothGatt.STATE_CONNECTED) {
-                mBluetoothGatt = gatt;
-                gatt.discoverServices();
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        //mDataView.setText("Connected");
-                        showToast("Connected to device");
-                    }
-                });
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                // close connection and display info in ui
-                mBluetoothGatt = null;
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        //mDataView.setText("Disconnected");
-                        showToast("Device disconnected");
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            deviceCommunication.DeviceDiscovered(gatt);
-        }
-
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            Log.d(TAG, characteristic.getUuid().toString());
-        }
-
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            Log.d(TAG, "onCharacteristicRead: " + deviceCommunication.ReadFromDevice(characteristic));
-        }
-    };
-
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
@@ -151,7 +75,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         trainButton = findViewById(R.id.train_button);
         mDeviceName = findViewById(R.id.textDeviceName);
-        mDeviceOtherInfo = findViewById(R.id.textOther);
+        //mDeviceOtherInfo = findViewById(R.id.textOther);
         mDeviceRSSI = findViewById(R.id.textDeviceRSSI);
         mTextInputSensorOne = findViewById(R.id.editTextSensorOne);
         mTextInputSensorTwo = findViewById(R.id.editTextSensorTwo);
@@ -164,9 +88,22 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         backButton.setOnClickListener(this);
         trainButton.setOnClickListener(this);
 
-        mHandler = new Handler();
-
         deviceCommunication = new ArduinoBLECommunication();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        deviceCommunication.disconnectFromDevice();
+        ConnectedDevice.removeInstance();
+        mConnectedDevice = null;
+        finish();
+    }
+
+    private void connect() {
+        if (mConnectedDevice != null) {
+            deviceCommunication.connectToDevice(mConnectedDevice, this);
+        }
     }
 
     protected void showToast(String msg) {
