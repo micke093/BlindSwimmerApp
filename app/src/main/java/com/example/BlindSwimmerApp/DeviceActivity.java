@@ -23,7 +23,7 @@ import com.example.BlindSwimmerApp.DeviceCommunication.IDeviceCommunication;
  */
 public class DeviceActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "MYTAG";
+    private static final String TAG = "DeviceActivity";
 
     private TextView mDeviceName;
     //private TextView mDeviceOtherInfo;
@@ -35,9 +35,10 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private Button trainButton;
     private Button submitSensorButton;
 
-    //TODO maybe move?
-    private BluetoothDevice mConnectedDevice = null;
     private IDeviceCommunication deviceCommunication = null;
+
+    //TODO maybe move to another new class? So device is exchangeable
+    private BluetoothDevice mConnectedDevice = null;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -68,10 +69,9 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device);
-
-        System.out.println("DeviceActivity");
 
         trainButton = findViewById(R.id.train_button);
         mDeviceName = findViewById(R.id.textDeviceName);

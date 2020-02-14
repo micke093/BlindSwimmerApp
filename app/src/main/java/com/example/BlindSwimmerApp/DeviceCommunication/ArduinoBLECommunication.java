@@ -55,10 +55,11 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                 Log.d(TAG, "service: " + uuid);
 
                 //Unique for every Arduino
-                //TODO change so it is not hardcoded.
+                //TODO change so it is not hardcoded. Maybe get and store the UUID when specifying sensors with phone
                 if(uuid.equals("19b10001-e8f2-537e-4f6c-d104768a1214"))
                 {
                     arduinoService = service;
+                    Log.d(TAG, "Found matching uuid");
                 }
             }
 
