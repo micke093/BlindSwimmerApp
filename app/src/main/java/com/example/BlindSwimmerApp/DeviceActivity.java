@@ -40,6 +40,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private Button trainButton;
     private Button submitSensorButton;
 
+    //Move these to the arduino communication class.
     private BluetoothDevice mConnectedDevice = null;
     private BluetoothGatt mBluetoothGatt = null;
 
@@ -88,8 +89,9 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private void connect() {
         if (mConnectedDevice != null) {
             // register call backs for bluetooth gatt
+            //TODO move to arduino communication class.
             mBluetoothGatt = mConnectedDevice.connectGatt(this, false, mBtGattCallback);
-            Log.d(TAG, "connect: connctGatt called");
+            Log.d(TAG, "connect: connectGatt called");
         }
     }
 
