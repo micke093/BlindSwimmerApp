@@ -6,11 +6,7 @@ public interface IDevice<E> {
 
     String getAddress();
 
-    E get();
-
     void set(E deviceToBeAdded);
-
-    void remove();
 
     String toString();
 }
