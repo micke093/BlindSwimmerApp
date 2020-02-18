@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.util.Log;
 
@@ -19,7 +18,6 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     private BluetoothGatt gatt = null;
     //TODO change name to selectedArduinoService
     private BluetoothGattService gattService = null;
-    BluetoothManager bm;
 
     /**
     * Writes information to a Arduino Nano 33 with BLE

@@ -26,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.BlindSwimmerApp.DeviceActivity" />
-        <activity android:name="com.example.BlindSwimmerApp.SniffActivity" />
     </application>
 
 </manifest>

@@ -12,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 
@@ -40,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
-
-    private FloatingActionButton fabSniffButton;
 
     private ArrayList<BluetoothDevice> mDeviceList;
     private BTDeviceArrayAdapter mAdapter;
@@ -82,20 +78,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // callback for ActivityCompat.requestPermissions
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_ACCESS_LOCATION: {
-                // if request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // TODO:
-                    // ...
-                } else {
-                    // stop this activity
-                    this.finish();
-                }
-                break;
+        if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // TODO:
+                // ...
+            } else {
+                // stop this activity
+                this.finish();
             }
         }
     }
@@ -122,16 +113,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-
-
-    private void scanLeDevice(final boolean enable){
+    private void scanForDevices(final boolean enable){
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBluetoothAdapter.isDiscovering()) {
             mBluetoothAdapter.cancelDiscovery();
         }
-
         if (enable)
         {
             if(!mScanning){
@@ -173,40 +161,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         System.out.println("Main Activity");
         mDeviceList = new ArrayList<>();
 
         mHandler = new Handler();
 
         mScanInfoView = findViewById(R.id.scanInfo);
-        final Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
-
-        fabSniffButton = (FloatingActionButton) findViewById(R.id.fabSniff);
-        fabSniffButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                if(fabSniffButton.isPressed())
-                {
-                    Intent intent = new Intent(MainActivity.this, SniffActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
 
         Button startScanButton = findViewById(R.id.startScanButton);
         startScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDeviceList.clear();
-                scanLeDevice(true);
+                scanForDevices(true);
             }
         });
 
         ListView scanListView = findViewById(R.id.scanListView);
-
 
         mAdapter = new BTDeviceArrayAdapter(this, mDeviceList);
         scanListView.setAdapter(mAdapter);
@@ -223,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         initBLE();
         mDeviceList.clear();
-        scanLeDevice(true);
+        scanForDevices(true);
         startScanBluetooth();
         mBluetoothAdapter.startDiscovery();
     }
@@ -233,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
         // stop scanning
-        scanLeDevice(false);
+        scanForDevices(false);
         mDeviceList.clear();
         mAdapter.notifyDataSetChanged();
         mBluetoothAdapter.cancelDiscovery();
@@ -283,9 +254,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-
-
-
-    }
+    public void onClick(View v) {    }
 }
