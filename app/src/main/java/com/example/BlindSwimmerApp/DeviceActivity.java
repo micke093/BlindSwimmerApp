@@ -129,7 +129,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
             if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty())
             {
-                deviceCommunication.WriteToDevice("test");
+                deviceCommunication.WriteToDevice("SN_1" + sensorInputOne);
                 //TODO
                 //send sensor name to arduino
             }

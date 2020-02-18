@@ -15,21 +15,20 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     private static final String TAG = "ArduinoBLECommunication";
 
     private final String arduinoUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
-    private BluetoothGatt gatt = null;
-    //TODO change name to selectedArduinoService
-    private BluetoothGattService gattService = null;
+    private BluetoothGatt selectedGattDevice = null;
+    private BluetoothGattService selectedArduinoService = null;
 
     /**
     * Writes information to a Arduino Nano 33 with BLE
     * */
     @Override
     public void WriteToDevice(Object dataToSend) {
-        Log.d(TAG, "Data to send: " + dataToSend.toString() + " Gatt service: " + gattService.getUuid());
-        if(gattService != null){
+        Log.d(TAG, "Gatt service: " + selectedArduinoService.getUuid() + ", Data to send: " + dataToSend.toString());
+        if(selectedArduinoService != null){
             BluetoothGattCharacteristic characteristic =
-                    gatt.getService(gattService.getUuid()).getCharacteristic(gattService.getUuid());
+                    selectedGattDevice.getService(selectedArduinoService.getUuid()).getCharacteristic(selectedArduinoService.getUuid());
             characteristic.setValue(dataToSend.toString());
-            Callbacks().onCharacteristicWrite(gatt,characteristic,1);
+            selectedGattDevice.writeCharacteristic(characteristic);
         }
         else{
             Log.d(TAG, "WriteToDevice: Gatt service is null");
@@ -81,9 +80,9 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             Log.d(TAG, "Could not find a matching service UUID name.");
         }
         else {
-            gattService = arduinoService;
-            this.gatt = gatt;
-            Log.d(TAG, "DeviceDiscovered: Gatt: " + this.gatt.toString());
+            selectedArduinoService = arduinoService;
+            this.selectedGattDevice = gatt;
+            Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
         }
     }
 
@@ -98,7 +97,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                     gatt.discoverServices();
 
                 } else if (state == BluetoothGatt.STATE_DISCONNECTED || state == BluetoothGatt.STATE_DISCONNECTING) {
-                    ArduinoBLECommunication.this.gatt = null;
+                    ArduinoBLECommunication.this.selectedGattDevice = null;
                     Log.d(TAG, "Device disconnected");
                 }
             }
@@ -111,13 +110,14 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
             @Override
             public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                Log.d(TAG, characteristic.getUuid().toString());
-                gatt.writeCharacteristic(characteristic);
+                Log.d(TAG, "Message sent to device: " + characteristic.getUuid().toString()
+                        + ", Message was: " + characteristic.getStringValue(0));
             }
 
             @Override
             //TODO change so it reads from characteristics and adds the values to an array
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+
                 Log.d(TAG, "onCharacteristicRead: " + ReadFromDevice(characteristic));
             }
         };
@@ -125,7 +125,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     @Override
     public boolean connectToDevice(Object device, Context context) {
-        gatt = ((BluetoothDevice) device).connectGatt(context, false, Callbacks());
+        selectedGattDevice = ((BluetoothDevice) device).connectGatt(context, false, Callbacks());
         Log.d(TAG, "connect: connectGatt called");
         //TODO check if successful
         return true;
@@ -133,8 +133,8 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     @Override
     public boolean disconnectFromDevice() {
-        if (gatt != null) {
-            gatt.close();
+        if (selectedGattDevice != null) {
+            selectedGattDevice.close();
         }
         //TODO check if successful
         return true;
