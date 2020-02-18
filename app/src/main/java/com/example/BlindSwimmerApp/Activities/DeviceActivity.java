@@ -1,7 +1,6 @@
 package com.example.BlindSwimmerApp.Activities;
 
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.BlindSwimmerApp.ConnectedDevice;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.IDevice;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.ConnectedDevice;
+import com.example.BlindSwimmerApp.R;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
-import com.example.BlindSwimmerApp.R;
 
 /**
  * This is where we manage the BLE device and the corresponding services, characteristics et c.
@@ -40,18 +40,18 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private IDeviceCommunication deviceCommunication = null;
 
     //TODO maybe move to another new class? So device is exchangeable
-    private BluetoothDevice mConnectedDevice = null;
+    private IDevice connectedDevice = null;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onStart() {
         super.onStart();
-        mConnectedDevice = ConnectedDevice.getInstance();
-        if (mConnectedDevice != null) {
+        connectedDevice = ConnectedDevice.getInstance();
+        if (connectedDevice != null) {
             if(mDeviceName != null)
             {
-                mDeviceName.setText(mConnectedDevice.getName());
-                if(mConnectedDevice.getName() == null)
+                mDeviceName.setText(connectedDevice.getName());
+                if(connectedDevice.getName() == null)
                 {
                     mDeviceName.setText("No set name (null)");
                 }
@@ -98,13 +98,13 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         super.onStop();
         deviceCommunication.disconnectFromDevice();
         ConnectedDevice.removeInstance();
-        mConnectedDevice = null;
+        connectedDevice = null;
         finish();
     }
 
     private void connect() {
-        if (mConnectedDevice != null) {
-            deviceCommunication.connectToDevice(mConnectedDevice, this);
+        if (connectedDevice != null) {
+            deviceCommunication.connectToDevice(connectedDevice, this);
         }
     }
 

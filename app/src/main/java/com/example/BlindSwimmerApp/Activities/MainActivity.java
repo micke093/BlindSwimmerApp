@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.ConnectedDevice;
 import com.example.BlindSwimmerApp.DeviceArrayAdapter;
 import com.example.BlindSwimmerApp.CommunicationAdapters.BluetoothAdapterBlindSwimmers;
 import com.example.BlindSwimmerApp.CommunicationAdapters.ICommunicationAdapter;
@@ -110,10 +111,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
-        device.set(devices.get(position));
-        Log.d(TAG, "Selected device: " + device.getName());
 
-        showToast(device.toString());
+        ConnectedDevice.setInstance(devices.get(position));
+        Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
+        showToast(ConnectedDevice.getInstance().toString());
 
         Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
         intent.putExtra("deviceName", device.getName()); //send the RSSI value forward to DeviceActivity to catch

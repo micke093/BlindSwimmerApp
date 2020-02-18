@@ -1,6 +1,4 @@
-package com.example.BlindSwimmerApp;
-
-import android.bluetooth.BluetoothDevice;
+package com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices;
 
 /**
  * An ugly hack to administrate the selected Bluetooth device
@@ -8,19 +6,19 @@ import android.bluetooth.BluetoothDevice;
  */
 public class ConnectedDevice {
 
-    private static BluetoothDevice theDevice = null;
+    private static IDevice theDevice = null;
     private static final Object lock = new Object();
 
     private ConnectedDevice() {
     }
 
-    public static BluetoothDevice getInstance() {
+    public static IDevice getInstance() {
         synchronized(lock) {
             return theDevice;
         }
     }
 
-    public static void setInstance(BluetoothDevice newDevice) {
+    public static void setInstance(IDevice newDevice) {
         synchronized(lock) {
             theDevice = newDevice;
         }

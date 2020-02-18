@@ -4,7 +4,8 @@ import android.bluetooth.BluetoothDevice;
 
 public class BluetoothDeviceImp implements IDevice {
 
-    private BluetoothDevice device;
+    private static BluetoothDevice device;
+    private static final Object lock = new Object();
 
     @Override
     public String getName() {
@@ -23,9 +24,30 @@ public class BluetoothDeviceImp implements IDevice {
     }
 
     @Override
-    public void set(Object deviceToBeAdded) {
-        if(deviceToBeAdded instanceof BluetoothDevice){
-            device = (BluetoothDevice) deviceToBeAdded;
+    public Object get() {
+        synchronized(lock) {
+            return device;
         }
+    }
+
+    @Override
+    public void set(Object deviceToBeAdded) {
+        synchronized(lock) {
+            if (deviceToBeAdded instanceof BluetoothDevice) {
+                device = (BluetoothDevice) deviceToBeAdded;
+            }
+        }
+    }
+
+    @Override
+    public void remove() {
+        synchronized(lock) {
+            device = null;
+        }
+    }
+
+    @Override
+    public String toString(){
+        return device.toString();
     }
 }
