@@ -1,4 +1,4 @@
-package com.example.BlindSwimmerApp;
+package com.example.BlindSwimmerApp.Activities;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.BlindSwimmerApp.DeviceCommunication.ArduinoBLECommunication;
-import com.example.BlindSwimmerApp.DeviceCommunication.IDeviceCommunication;
+import com.example.BlindSwimmerApp.ConnectedDevice;
+import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
+import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
+import com.example.BlindSwimmerApp.R;
 
 /**
  * This is where we manage the BLE device and the corresponding services, characteristics et c.

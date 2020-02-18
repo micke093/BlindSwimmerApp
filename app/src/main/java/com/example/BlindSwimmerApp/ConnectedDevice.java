@@ -15,13 +15,13 @@ public class ConnectedDevice {
     }
 
     public static BluetoothDevice getInstance() {
-        synchronized (lock) {
+        synchronized(lock) {
             return theDevice;
         }
     }
 
     public static void setInstance(BluetoothDevice newDevice) {
-        synchronized (lock) {
+        synchronized(lock) {
             theDevice = newDevice;
         }
     }

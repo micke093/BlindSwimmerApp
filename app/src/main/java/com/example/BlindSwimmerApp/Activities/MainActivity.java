@@ -1,9 +1,7 @@
-package com.example.BlindSwimmerApp;
+package com.example.BlindSwimmerApp.Activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,29 +21,38 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.BlindSwimmerApp.DeviceArrayAdapter;
+import com.example.BlindSwimmerApp.CommunicationAdapters.BluetoothAdapterBlindSwimmers;
+import com.example.BlindSwimmerApp.CommunicationAdapters.ICommunicationAdapter;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.BluetoothImp;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.IDevice;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.ICommunicationTypeDevice;
+import com.example.BlindSwimmerApp.R;
+
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    private final String TAG = "MAIN";
     public static final int REQUEST_ENABLE_BT = 1000;
     public static final int REQUEST_ACCESS_LOCATION = 1001;
-
     // period for scan, 5000 ms
     private static final long SCAN_PERIOD = 5000;
+    
+    private ICommunicationAdapter communicationAdapter;
+    private ICommunicationTypeDevice communicationDevice;
+    private IDevice device;
 
-    private BluetoothAdapter mBluetoothAdapter;
-    private boolean mScanning;
+    private boolean scanning;
     private Handler mHandler;
 
-    private ArrayList<BluetoothDevice> mDeviceList;
-    private BTDeviceArrayAdapter mAdapter;
+    private ArrayList<IDevice> devices;
+    private DeviceArrayAdapter arrayAdapter;
     private TextView mScanInfoView;
 
-    String deviceName;   ///device name
-
-    private int RSSI = 0;
+    int RSSI;
 
     private void initBLE() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
@@ -65,11 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
         // turn on BT
-        if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        if (communicationAdapter == null || !communicationAdapter.isEnabled()) {
+            assert communicationAdapter != null;
+            Intent enableBtIntent = new Intent(communicationAdapter.actionRequestEnable());
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
@@ -104,48 +110,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
-        ConnectedDevice.setInstance(mDeviceList.get(position));
-        Log.d("banana", "Selected device: " + ConnectedDevice.getInstance().getName());
-        showToast(ConnectedDevice.getInstance().toString());
+        device.set(devices.get(position));
+        Log.d(TAG, "Selected device: " + device.getName());
+
+        showToast(device.toString());
+
         Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
-        intent.putExtra("deviceName", ConnectedDevice.getInstance().getName()); //send the RSSI value forward to DeviceActivity to catch
+        intent.putExtra("deviceName", device.getName()); //send the RSSI value forward to DeviceActivity to catch
         intent.putExtra("RSSIValue", RSSI); //send the RSSI value forward to DeviceActivity to catch
         startActivity(intent);
     }
 
     private void scanForDevices(final boolean enable){
-
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (mBluetoothAdapter.isDiscovering()) {
-            mBluetoothAdapter.cancelDiscovery();
+        if (communicationAdapter.isDiscovering()) {
+            communicationAdapter.cancelDiscovery();
         }
         if (enable)
         {
-            if(!mScanning){
-
+            if(!scanning){
                 mHandler.postDelayed(new Runnable()
                 {
                     @Override
                     public void run()
                     {
-                        if (mScanning)
+                        if (scanning)
                         {
-                            mScanning = false;
-                            mBluetoothAdapter.startDiscovery();
+                            scanning = false;
+                            communicationAdapter.startDiscovery();
                             showToast("BLE scan stopped");
                         }
                     }
                 }, SCAN_PERIOD);
-
-                mScanning = true;
+                scanning = true;
             }
         }else{
-
-            if (mScanning)
+            if (scanning)
             {
-                mScanning = false;
-                mBluetoothAdapter.cancelDiscovery();
+                scanning = false;
+                communicationAdapter.cancelDiscovery();
                 showToast("BLE scan stopped");
             }
         }
@@ -160,27 +162,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        System.out.println("Main Activity");
-        mDeviceList = new ArrayList<>();
-
         mHandler = new Handler();
-
         mScanInfoView = findViewById(R.id.scanInfo);
+
+        communicationAdapter = new BluetoothAdapterBlindSwimmers();
+        communicationDevice = new BluetoothImp();
+        device = new BluetoothDeviceImp();
+        devices = new ArrayList<>();
 
         Button startScanButton = findViewById(R.id.startScanButton);
         startScanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDeviceList.clear();
+                devices.clear();
                 scanForDevices(true);
             }
         });
 
         ListView scanListView = findViewById(R.id.scanListView);
 
-        mAdapter = new BTDeviceArrayAdapter(this, mDeviceList);
-        scanListView.setAdapter(mAdapter);
+        arrayAdapter = new DeviceArrayAdapter(this, devices);
+        scanListView.setAdapter(arrayAdapter);
         scanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -193,10 +195,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         initBLE();
-        mDeviceList.clear();
+        devices.clear();
         scanForDevices(true);
         startScanBluetooth();
-        mBluetoothAdapter.startDiscovery();
+        communicationAdapter.startDiscovery();
     }
 
     // TODO ...
@@ -205,9 +207,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         // stop scanning
         scanForDevices(false);
-        mDeviceList.clear();
-        mAdapter.notifyDataSetChanged();
-        mBluetoothAdapter.cancelDiscovery();
+        devices.clear();
+        arrayAdapter.notifyDataSetChanged();
+        communicationAdapter.cancelDiscovery();
         // NB !release additional resources
         // ...BleGatt...
     }
@@ -225,32 +227,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onReceive(Context context, Intent intent)
             {
-                String action = intent.getAction();
-                if (BluetoothDevice.ACTION_FOUND.equals(action))
+                if (communicationDevice.foundCorrectAction(intent))
                 {
-                    BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    RSSI = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE);
-                    //Log.d("banana", "onReceive: " + RSSI);
+                    device.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
+                    RSSI = communicationDevice.getRSSIValueFromIntent(intent);
+                    Log.d(TAG, "onReceive: " + RSSI);
 
-                    deviceName = device.getName();
-                    if(deviceName==null) {
-                        deviceName = "null";
-                    }
-                    else if (!mDeviceList.contains(device) && deviceName.startsWith("Arduino Swimmer"))
+                    assert device != null;
+                    String deviceName = device.getName();
+                    if (!devices.contains(device) && deviceName.startsWith("Arduino Swimmer"))
                     {
-                        mDeviceList.add(device);
-                        mAdapter.notifyDataSetChanged();
-                        String msg = getString(R.string.found_devices_msg, mDeviceList.size());
+                        devices.add(device);
+                        arrayAdapter.notifyDataSetChanged();
+                        String msg = getString(R.string.found_devices_msg, devices.size());
                         mScanInfoView.setText(msg);
-                        Log.d("banana", "Swimmer found as: " + device.getName() + ", Address: " + device.getAddress());
+                        Log.d(TAG, "Swimmer found as: " + device.getName() + ", Address: " + device.getAddress());
                     }
-                    Log.d("banana", ". New Device found in scan: " + device.getName() + ", Address: " + device.getAddress());
+                    Log.d(TAG, ". New Device found in scan: " + device.getName() + ", Address: " + device.getAddress());
                 }
             }
         };
-
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        this.registerReceiver(bReceiver, filter);
+        this.registerReceiver(bReceiver, new IntentFilter(communicationDevice.actionFound()));
     }
 
     @Override
