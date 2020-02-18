@@ -8,8 +8,6 @@ public interface IDeviceCommunication<E> {
 
     String ReadFromDevice(E receivedData);
 
-    void DeviceDiscovered(E discoveredDevice);
-
     E Callbacks();
 
     boolean connectToDevice(E device, Context context);
