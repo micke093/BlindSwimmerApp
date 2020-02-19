@@ -37,6 +37,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             BluetoothGattCharacteristic characteristic =
                     selectedGattDevice.getService(selectedArduinoService.getUuid()).getCharacteristic(selectedArduinoService.getUuid());
             characteristic.setValue(dataToSend.toString());
+            Log.d(TAG, "WriteToDevice: characteristics value: " + characteristic.getStringValue(0));
             selectedGattDevice.writeCharacteristic(characteristic);
         }
         else{

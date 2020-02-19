@@ -17,6 +17,8 @@ import com.example.BlindSwimmerApp.R;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * This is where we manage the BLE device and the corresponding services, characteristics et c.
  * <p>
@@ -134,9 +136,15 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
             if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty())
             {
+                Log.d(TAG, "onClick: Sensor one: " + sensorInputOne + " Sensor two: " + sensorInputTwo);
                 deviceCommunication.WriteToDevice("SN_1" + sensorInputOne);
-                //TODO
-                //send sensor name to arduino
+                //Wait to send second sensor name since arduino can't read if sent to fast.
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                deviceCommunication.WriteToDevice("SN_2" + sensorInputTwo);
             }
             else
             {
