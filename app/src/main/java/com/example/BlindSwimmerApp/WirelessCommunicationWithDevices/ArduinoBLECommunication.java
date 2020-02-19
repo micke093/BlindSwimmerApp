@@ -8,6 +8,8 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -132,7 +134,8 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     @Override
     public boolean connectToDevice(Object device, Context context) {
-        selectedGattDevice = ((BluetoothDevice) device).connectGatt(context, false, Callbacks());
+        BluetoothDeviceImp temp = (BluetoothDeviceImp) device;
+        selectedGattDevice = (BluetoothGatt) temp.getConnection(context, Callbacks());
         Log.d(TAG, "connect: connectGatt called");
         //TODO check if successful
         return true;
