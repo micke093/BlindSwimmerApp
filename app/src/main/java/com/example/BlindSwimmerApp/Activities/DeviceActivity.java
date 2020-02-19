@@ -47,6 +47,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     protected void onStart() {
         super.onStart();
         connectedDevice = ConnectedDevice.getInstance();
+        Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
         if (connectedDevice != null) {
             if(mDeviceName != null)
             {
@@ -104,6 +105,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
     private void connect() {
         if (connectedDevice != null) {
+            Log.d(TAG, "Connect: Connected device is: " + connectedDevice.getName());
             deviceCommunication.connectToDevice(connectedDevice, this);
         }
     }

@@ -24,9 +24,7 @@ public class BluetoothDeviceImp implements IDevice {
 
     @Override
     public void set(Object deviceToBeAdded) {
-        if (deviceToBeAdded instanceof BluetoothDevice) {
-            device = (BluetoothDevice) deviceToBeAdded;
-        }
+        device = (BluetoothDevice) deviceToBeAdded;
     }
 
     @Override

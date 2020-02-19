@@ -104,9 +104,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
-        ConnectedDevice.setInstance(devices.get(position));
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < devices.size(); i++) {
+            sb.append(" device name: ");
+            sb.append(devices.get(i).getName());
+        }
+        Log.d(TAG, "onDeviceSelected: List of devices" + sb.toString() + " Position selected: " + position);
+
+
+
+        device.set(devices.get(position));
+        ConnectedDevice.setInstance(device);
         Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
-        showToast(ConnectedDevice.getInstance().toString());
 
         Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
         intent.putExtra("deviceName", device.getName()); //send the device name value forward to DeviceActivity to catch
@@ -209,21 +219,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (communicationDevice.foundCorrectAction(intent)) {
-                    Log.d(TAG, "Before setting a device.");
-                    device.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
+                    //Log.d(TAG, "Before setting a device.");
+                    IDevice temp = new BluetoothDeviceImp();
+                    temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
                     RSSI = communicationDevice.getRSSIValueFromIntent(intent);
-                    Log.d(TAG, "onReceive: " + RSSI);
+                    //Log.d(TAG, "onReceive: " + RSSI);
 
-                    assert device != null;
-                    String deviceName = device.getName();
-                    if (!devices.contains(device) && deviceName.startsWith("Arduino Swimmer")) {
-                        devices.add(device);
-                        arrayAdapter.notifyDataSetChanged();
-                        String msg = getString(R.string.found_devices_msg, devices.size());
-                        mScanInfoView.setText(msg);
-                        Log.d(TAG, "Swimmer found as: " + device.getName() + ", Address: " + device.getAddress());
+                    if (temp.getName() != null){
+                        String deviceName = temp.getName();
+                        if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
+                            Log.d(TAG, "Device name is: " + deviceName);
+
+                            devices.add(temp);
+
+                            arrayAdapter.notifyDataSetChanged();
+                            String msg = getString(R.string.found_devices_msg, devices.size());
+                            mScanInfoView.setText(msg);
+                            Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
+
+
+
+                            StringBuilder sb = new StringBuilder();
+                            for (int i = 0; i < devices.size(); i++) {
+                                sb.append(" device name: ");
+                                sb.append(devices.get(i).getName());
+                            }
+                            Log.d(TAG, "onReceived: List of devices" + sb.toString());
+                        }
                     }
-                    Log.d(TAG, ". New Device found in scan: " + device.getName() + ", Address: " + device.getAddress());
+                    //Log.d(TAG, ". New Device found in scan: " + device.getName() + ", Address: " + device.getAddress());
                 }
             }
         };
