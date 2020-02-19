@@ -39,23 +39,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String TAG = "MAIN";
     public static final int REQUEST_ENABLE_BT = 1000;
     public static final int REQUEST_ACCESS_LOCATION = 1001;
-    // period for scan, 5000 ms
     private static final long SCAN_PERIOD = 5000;
-    
+
     private ICommunicationAdapter communicationAdapter;
     private ICommunicationTypeDevice communicationDevice;
+
     private IDevice device;
-
-    private boolean scanning;
-    private Handler mHandler;
-
     private ArrayList<IDevice> devices;
     private DeviceArrayAdapter arrayAdapter;
+
+    private boolean scanning;
     private TextView mScanInfoView;
+    private Handler mHandler;
+    private int RSSI;
 
-    int RSSI;
-
-    private void initBLE() {
+    private void initWirelessCommunication() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             showToast("BLE is not supported");
             finish();
@@ -72,25 +70,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // the callback method onRequestPermissionsResult gets the result of this request
             }
         }
-
-        // turn on BT
+        // enable wireless communication alternative
         if (communicationAdapter == null || !communicationAdapter.isEnabled()) {
             assert communicationAdapter != null;
-            Intent enableBtIntent = new Intent(communicationAdapter.actionRequestEnable());
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            Intent enableWirelessCommunicationIntent = new Intent(communicationAdapter.actionRequestEnable());
+            startActivityForResult(enableWirelessCommunicationIntent, REQUEST_ENABLE_BT);
         }
-
     }
 
     // callback for ActivityCompat.requestPermissions
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // TODO:
-                // ...
+                // TODO: ????
             } else {
                 // stop this activity
                 this.finish();
@@ -111,31 +104,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
-
         ConnectedDevice.setInstance(devices.get(position));
         Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
         showToast(ConnectedDevice.getInstance().toString());
 
         Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
-        intent.putExtra("deviceName", device.getName()); //send the RSSI value forward to DeviceActivity to catch
+        intent.putExtra("deviceName", device.getName()); //send the device name value forward to DeviceActivity to catch
         intent.putExtra("RSSIValue", RSSI); //send the RSSI value forward to DeviceActivity to catch
         startActivity(intent);
     }
 
-    private void scanForDevices(final boolean enable){
+    private void scanForDevices(final boolean enable) {
         if (communicationAdapter.isDiscovering()) {
             communicationAdapter.cancelDiscovery();
         }
-        if (enable)
-        {
-            if(!scanning){
-                mHandler.postDelayed(new Runnable()
-                {
+        if (enable) {
+            if (!scanning) {
+                mHandler.postDelayed(new Runnable() {
                     @Override
-                    public void run()
-                    {
-                        if (scanning)
-                        {
+                    public void run() {
+                        if (scanning) {
                             scanning = false;
                             communicationAdapter.startDiscovery();
                             showToast("BLE scan stopped");
@@ -144,9 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }, SCAN_PERIOD);
                 scanning = true;
             }
-        }else{
-            if (scanning)
-            {
+        } else {
+            if (scanning) {
                 scanning = false;
                 communicationAdapter.cancelDiscovery();
                 showToast("BLE scan stopped");
@@ -159,8 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * via onCreate, onStart and onStop.
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mHandler = new Handler();
@@ -179,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 scanForDevices(true);
             }
         });
-
         ListView scanListView = findViewById(R.id.scanListView);
 
         arrayAdapter = new DeviceArrayAdapter(this, devices);
@@ -195,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        initBLE();
+        initWirelessCommunication();
         devices.clear();
         scanForDevices(true);
         startScanBluetooth();
@@ -211,8 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         devices.clear();
         arrayAdapter.notifyDataSetChanged();
         communicationAdapter.cancelDiscovery();
-        // NB !release additional resources
-        // ...BleGatt...
     }
 
     // short messages
@@ -221,23 +204,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toast.show();
     }
 
-    private void startScanBluetooth()
-    {
-        final BroadcastReceiver bReceiver = new BroadcastReceiver()
-        {
+    private void startScanBluetooth() {
+        final BroadcastReceiver bReceiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent)
-            {
-                if (communicationDevice.foundCorrectAction(intent))
-                {
+            public void onReceive(Context context, Intent intent) {
+                if (communicationDevice.foundCorrectAction(intent)) {
+                    Log.d(TAG, "Before setting a device.");
                     device.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
                     RSSI = communicationDevice.getRSSIValueFromIntent(intent);
                     Log.d(TAG, "onReceive: " + RSSI);
 
                     assert device != null;
                     String deviceName = device.getName();
-                    if (!devices.contains(device) && deviceName.startsWith("Arduino Swimmer"))
-                    {
+                    if (!devices.contains(device) && deviceName.startsWith("Arduino Swimmer")) {
                         devices.add(device);
                         arrayAdapter.notifyDataSetChanged();
                         String msg = getString(R.string.found_devices_msg, devices.size());
@@ -252,5 +231,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {    }
+    public void onClick(View v) {
+    }
 }
