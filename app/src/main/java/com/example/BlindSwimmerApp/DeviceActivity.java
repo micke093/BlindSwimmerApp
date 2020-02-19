@@ -115,7 +115,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
         if(v==trainButton){
-            startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
+            //startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
+            deviceCommunication.startAsynchronousReadFromSelectedDevice();
         }
 
         else if(v==backButton){

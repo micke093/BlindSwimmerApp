@@ -8,6 +8,8 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ArduinoBLECommunication implements IDeviceCommunication {
@@ -17,6 +19,11 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     private final String arduinoUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
     private BluetoothGatt selectedGattDevice = null;
     private BluetoothGattService selectedArduinoService = null;
+    private ArrayList<String> receivedData;
+
+    public ArduinoBLECommunication() {
+        receivedData = new ArrayList<>();
+    }
 
     /**
     * Writes information to a Arduino Nano 33 with BLE
@@ -36,20 +43,14 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
     @Override
-    //TODO change so it reads from an array and return the values from there
-    public String ReadFromDevice(Object receivedData) {
-        Log.d(TAG, receivedData.toString());
-        /*BluetoothGattCharacteristic rd = (BluetoothGattCharacteristic) receivedData;
-        byte[] bytesReceived = rd.getValue();
+    public void startAsynchronousReadFromSelectedDevice() {
+        BluetoothGattCharacteristic characteristic =
+                selectedGattDevice.getService(selectedArduinoService.getUuid()).getCharacteristic(selectedArduinoService.getUuid());
+        selectedGattDevice.readCharacteristic(characteristic);
+    }
 
-        StringBuilder strReceived = new StringBuilder();
-        for (byte b : bytesReceived) {
-            strReceived.append((char) b);
-        }
-
-        Log.d(TAG, "characteristic: "  + strReceived.toString());
-        Log.d(TAG, rd.getUuid().toString());
-        return  strReceived.toString();*/
+    @Override
+    public String getReadDataFromDevice() {
         return "";
     }
 
@@ -74,7 +75,6 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                 break;
             }
         }
-
         if(arduinoService == null)
         {
             Log.d(TAG, "Could not find a matching service UUID name.");
@@ -114,11 +114,17 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                         + ", Message was: " + characteristic.getStringValue(0));
             }
 
-            @Override
             //TODO change so it reads from characteristics and adds the values to an array
+            @Override
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-
-                Log.d(TAG, "onCharacteristicRead: " + ReadFromDevice(characteristic));
+                byte[] rd = characteristic.getValue();
+                if(rd != null || rd.length != 0){
+                    String st = new String(rd);
+                    Log.d(TAG, "onCharacteristicRead: String: " + st);
+                    receivedData.add(st);
+                } else{
+                    Log.d(TAG, "No data received");
+                }
             }
         };
     }
