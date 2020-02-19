@@ -6,7 +6,9 @@ public interface IDeviceCommunication<E> {
 
     void WriteToDevice(E dataToSend);
 
-    String ReadFromDevice(E receivedData);
+    void startAsynchronousReadFromSelectedDevice();
+
+    String getReadDataFromDevice();
 
     E Callbacks();
 

@@ -8,7 +8,7 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -17,21 +17,25 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     private static final String TAG = "ArduinoBLECommunication";
 
     private final String arduinoUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
-    private BluetoothGatt gatt = null;
-    //TODO change name to selectedArduinoService
-    private BluetoothGattService gattService = null;
+    private BluetoothGatt selectedGattDevice = null;
+    private BluetoothGattService selectedArduinoService = null;
+    private ArrayList<String> receivedData;
+
+    public ArduinoBLECommunication() {
+        receivedData = new ArrayList<>();
+    }
 
     /**
     * Writes information to a Arduino Nano 33 with BLE
     * */
     @Override
     public void WriteToDevice(Object dataToSend) {
-        Log.d(TAG, "Data to send: " + dataToSend.toString() + " Gatt service: " + gattService.getUuid());
-        if(gattService != null){
+        Log.d(TAG, "Gatt service: " + selectedArduinoService.getUuid() + ", Data to send: " + dataToSend.toString());
+        if(selectedArduinoService != null){
             BluetoothGattCharacteristic characteristic =
-                    gatt.getService(gattService.getUuid()).getCharacteristic(gattService.getUuid());
+                    selectedGattDevice.getService(selectedArduinoService.getUuid()).getCharacteristic(selectedArduinoService.getUuid());
             characteristic.setValue(dataToSend.toString());
-            Callbacks().onCharacteristicWrite(gatt,characteristic,1);
+            selectedGattDevice.writeCharacteristic(characteristic);
         }
         else{
             Log.d(TAG, "WriteToDevice: Gatt service is null");
@@ -39,20 +43,14 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
     @Override
-    //TODO change so it reads from an array and return the values from there
-    public String ReadFromDevice(Object receivedData) {
-        Log.d(TAG, receivedData.toString());
-        /*BluetoothGattCharacteristic rd = (BluetoothGattCharacteristic) receivedData;
-        byte[] bytesReceived = rd.getValue();
+    public void startAsynchronousReadFromSelectedDevice() {
+        BluetoothGattCharacteristic characteristic =
+                selectedGattDevice.getService(selectedArduinoService.getUuid()).getCharacteristic(selectedArduinoService.getUuid());
+        selectedGattDevice.readCharacteristic(characteristic);
+    }
 
-        StringBuilder strReceived = new StringBuilder();
-        for (byte b : bytesReceived) {
-            strReceived.append((char) b);
-        }
-
-        Log.d(TAG, "characteristic: "  + strReceived.toString());
-        Log.d(TAG, rd.getUuid().toString());
-        return  strReceived.toString();*/
+    @Override
+    public String getReadDataFromDevice() {
         return "";
     }
 
@@ -83,9 +81,9 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             Log.d(TAG, "Could not find a matching service UUID name.");
         }
         else {
-            gattService = arduinoService;
-            this.gatt = gatt;
-            Log.d(TAG, "DeviceDiscovered: Gatt: " + this.gatt.toString());
+            selectedArduinoService = arduinoService;
+            this.selectedGattDevice = gatt;
+            Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
         }
     }
 
@@ -100,7 +98,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                     gatt.discoverServices();
 
                 } else if (state == BluetoothGatt.STATE_DISCONNECTED || state == BluetoothGatt.STATE_DISCONNECTING) {
-                    ArduinoBLECommunication.this.gatt = null;
+                    ArduinoBLECommunication.this.selectedGattDevice = null;
                     Log.d(TAG, "Device disconnected");
                 }
             }
@@ -113,22 +111,28 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
             @Override
             public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                Log.d(TAG, characteristic.getUuid().toString());
-                gatt.writeCharacteristic(characteristic);
+                Log.d(TAG, "Message sent to device: " + characteristic.getUuid().toString()
+                        + ", Message was: " + characteristic.getStringValue(0));
             }
 
             @Override
             //TODO change so it reads from characteristics and adds the values to an array
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                Log.d(TAG, "onCharacteristicRead: " + ReadFromDevice(characteristic));
+                byte[] rd = characteristic.getValue();
+                if(rd != null || rd.length != 0){
+                    String st = new String(rd);
+                    Log.d(TAG, "onCharacteristicRead: String: " + st);
+                    receivedData.add(st);
+                } else{
+                    Log.d(TAG, "No data received");
+                }
             }
         };
     }
 
     @Override
     public boolean connectToDevice(Object device, Context context) {
-        BluetoothDeviceImp temp = (BluetoothDeviceImp) device;
-        gatt = (BluetoothGatt) temp.getConnection(context, Callbacks());
+        selectedGattDevice = ((BluetoothDevice) device).connectGatt(context, false, Callbacks());
         Log.d(TAG, "connect: connectGatt called");
         //TODO check if successful
         return true;
@@ -136,8 +140,8 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     @Override
     public boolean disconnectFromDevice() {
-        if (gatt != null) {
-            gatt.close();
+        if (selectedGattDevice != null) {
+            selectedGattDevice.close();
         }
         //TODO check if successful
         return true;

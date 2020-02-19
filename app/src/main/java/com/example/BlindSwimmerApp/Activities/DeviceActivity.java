@@ -119,7 +119,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
         if(v==trainButton){
-            startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
+            //startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
+            deviceCommunication.startAsynchronousReadFromSelectedDevice();
         }
 
         else if(v==backButton){
@@ -133,7 +134,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
             if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty())
             {
-                deviceCommunication.WriteToDevice("test");
+                deviceCommunication.WriteToDevice("SN_1" + sensorInputOne);
                 //TODO
                 //send sensor name to arduino
             }
