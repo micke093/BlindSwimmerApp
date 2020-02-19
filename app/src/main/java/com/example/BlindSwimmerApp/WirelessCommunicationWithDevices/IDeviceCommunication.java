@@ -1,4 +1,4 @@
-package com.example.BlindSwimmerApp.DeviceCommunication;
+package com.example.BlindSwimmerApp.WirelessCommunicationWithDevices;
 
 import android.content.Context;
 

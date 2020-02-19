@@ -1,10 +1,12 @@
-package com.example.BlindSwimmerApp;
+package com.example.BlindSwimmerApp.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.BlindSwimmerApp.R;
 
 public class TrainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -19,7 +21,6 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
 
         submitButton = findViewById(R.id.submit_button);
         backButton = findViewById(R.id.back_button);
-
 
         submitButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
