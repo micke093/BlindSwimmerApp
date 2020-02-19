@@ -112,10 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Log.d(TAG, "onDeviceSelected: List of devices" + sb.toString() + " Position selected: " + position);
 
-
-
-        device.set(devices.get(position));
-        ConnectedDevice.setInstance(device);
+        ConnectedDevice.setInstance(devices.get(position));
         Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
 
         Intent intent = new Intent(MainActivity.this, DeviceActivity.class);

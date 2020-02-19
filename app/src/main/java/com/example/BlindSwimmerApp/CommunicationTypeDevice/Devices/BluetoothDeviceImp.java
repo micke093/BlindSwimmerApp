@@ -1,10 +1,12 @@
 package com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCallback;
+import android.content.Context;
 
 public class BluetoothDeviceImp implements IDevice {
 
-    private static BluetoothDevice device;
+    private BluetoothDevice device;
 
     @Override
     public String getName() {
@@ -30,5 +32,10 @@ public class BluetoothDeviceImp implements IDevice {
     @Override
     public String toString(){
         return device.toString();
+    }
+
+    @Override
+    public Object getConnection(Context context, Object callbacks) {
+        return device.connectGatt(context, false, (BluetoothGattCallback) callbacks);
     }
 }
