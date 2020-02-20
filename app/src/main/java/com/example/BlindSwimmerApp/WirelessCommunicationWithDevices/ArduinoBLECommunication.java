@@ -28,7 +28,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
     /**
-    * Writes information to a Arduino Nano 33 with BLE
+    * Provides a way to write information to a Arduino Nano 33 with BLE.
     * */
     @Override
     public void WriteToDevice(Object dataToSend) {
@@ -44,6 +44,9 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         }
     }
 
+     /**
+     * Provides a way to read data from the selected device.
+     **/
     @Override
     public void startAsynchronousReadFromSelectedDevice() {
         BluetoothGattCharacteristic characteristic =
@@ -51,11 +54,19 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         selectedGattDevice.readCharacteristic(characteristic);
     }
 
+
+    /**
+     * Retruns the data read from the BTLE-device.
+     * */
     @Override
     public String getReadDataFromDevice() {
         return "";
     }
 
+
+    /**
+     * Sets the selected ArduinoDevice as the current device
+     * */
     private void SetSelectedArduinoService(BluetoothGatt gatt){
         Log.d(TAG, "Services discovered");
         BluetoothGattService arduinoService = null;
@@ -89,6 +100,9 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         }
     }
 
+    /**
+     * All the asynschronous BT-callbacks. They handle the communication between the devices
+     * */
     public BluetoothGattCallback Callbacks() {
         return new BluetoothGattCallback() {
             @Override
@@ -132,6 +146,9 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         };
     }
 
+    /**
+     *Connects to bluetooth device
+     * */
     @Override
     public boolean connectToDevice(Object device, Context context) {
         BluetoothDeviceImp temp = (BluetoothDeviceImp) device;
@@ -141,6 +158,10 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         return true;
     }
 
+
+    /**
+     *Closes BLE connection if there is no device
+     **/
     @Override
     public boolean disconnectFromDevice() {
         if (selectedGattDevice != null) {
