@@ -1,10 +1,11 @@
 package com.example.BlindSwimmerApp.WirelessCommunicationWithDevices;
 
 import android.content.Context;
+import android.os.Parcelable;
 
-public interface IDeviceCommunication<E> {
+public interface IDeviceCommunication<E> extends Parcelable {
 
-    void WriteToDevice(E dataToSend);
+    void writeToDevice(String dataToSend);
 
     void startAsynchronousReadFromSelectedDevice();
 
@@ -21,10 +22,12 @@ public interface IDeviceCommunication<E> {
     String CHANGE_MODE_TO_RUNNING_MODE = "mode_2";
     String BLUETOOTH_BEACON_ONE_SET_NAME = "SN_1";
     String BLUETOOTH_BEACON_TWO_SET_NAME = "SN_2";
+    String SWIMMER_TURN_SIGNAL = "T";
 
     String getChangeModeToConnectingMode();
     String getChangeModeToRunningMode();
     String getChangeModeToTrainMode();
     String getBluetoothBeaconOneSetName();
     String getBluetoothBeaconTwoSetName();
+    String getSwimmerTurnSignal();
 }

@@ -37,14 +37,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = "MAIN";
-    public static final int REQUEST_ENABLE_BT = 1000;
-    public static final int REQUEST_ACCESS_LOCATION = 1001;
+    private static final int REQUEST_ENABLE_BT = 1000;
+    private static final int REQUEST_ACCESS_LOCATION = 1001;
     private static final long SCAN_PERIOD = 5000;
 
     private ICommunicationAdapter communicationAdapter;
     private ICommunicationTypeDevice communicationDevice;
     private ArrayList<IDevice> devices;
-
     private DeviceArrayAdapter arrayAdapter;
 
     private boolean scanning;
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Allows for sending and processing of messages in separate threads
     private Handler handler;
 
+    //============================ PRIVATE FUNCTIONS =========================================
     private void initWirelessCommunication() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             showToast("BLE is not supported");
@@ -77,35 +77,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // callback for ActivityCompat.requestPermissions
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // TODO: what do we need to do here?
-            } else {
-                // stop this activity
-                this.finish();
+    private void startScanForWirelessDevices() {
+        final BroadcastReceiver bReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (communicationDevice.foundCorrectAction(intent)) {
+                    IDevice temp = new BluetoothDeviceImp();
+                    temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
+
+                    if (temp.getName() != null){
+                        String deviceName = temp.getName();
+                        if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
+                            devices.add(temp);
+                            arrayAdapter.notifyDataSetChanged();
+                            String msg = getString(R.string.found_devices_msg, devices.size());
+                            scanInfoView.setText(msg);
+                            Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
+                        }
+                    }
+                }
             }
-        }
-    }
-
-    // callback for request to turn on BT
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // if user chooses not to enable Bluetooth.
-        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
-            finish();
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    // device selected, start DeviceActivity (displaying data)
-    private void onDeviceSelected(int position) {
-        ConnectedDevice.setInstance(devices.get(position));
-        Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
-        startActivity(new Intent(MainActivity.this, DeviceActivity.class));
+        };
+        this.registerReceiver(bReceiver, new IntentFilter(communicationDevice.actionFound()));
     }
 
     private void scanForDevices(final boolean enable) {
@@ -135,6 +128,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    // device selected, start DeviceActivity (displaying data)
+    private void onDeviceSelected(int position) {
+        ConnectedDevice.setInstance(devices.get(position));
+        Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
+        startActivity(new Intent(MainActivity.this, DeviceActivity.class));
+    }
+
+    //==================== SETUP FUNCTIONS FOR ANDROID APPLICATION ====================
     /**
      * Below: Manage activity, and hence bluetooth, life cycle,
      * via onCreate, onStart and onStop.
@@ -190,33 +191,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         communicationAdapter.cancelDiscoveryOfWirelessDevices();
     }
 
+    // callback for ActivityCompat.requestPermissions
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // TODO: what do we need to do here?
+            } else { showToast("Bluetooth is required for this application to work"); }
+        }
+    }
+
+    // callback for request to turn on BT
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // if user chooses not to enable Bluetooth.
+        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
+            showToast("Bluetooth is required for this application to work");
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     protected void showToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
-    }
-
-    private void startScanForWirelessDevices() {
-        final BroadcastReceiver bReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (communicationDevice.foundCorrectAction(intent)) {
-                    IDevice temp = new BluetoothDeviceImp();
-                    temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
-
-                    if (temp.getName() != null){
-                        String deviceName = temp.getName();
-                        if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
-                            devices.add(temp);
-                            arrayAdapter.notifyDataSetChanged();
-                            String msg = getString(R.string.found_devices_msg, devices.size());
-                            scanInfoView.setText(msg);
-                            Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
-                        }
-                    }
-                }
-            }
-        };
-        this.registerReceiver(bReceiver, new IntentFilter(communicationDevice.actionFound()));
     }
 
     @Override

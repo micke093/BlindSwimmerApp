@@ -10,12 +10,15 @@ import android.widget.Toast;
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.ConnectedDevice;
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.IDevice;
 import com.example.BlindSwimmerApp.R;
+import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
+import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
 
 public class TrainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = "Trainactivity";
     private boolean sessionActive;
     private IDevice connectedDevice = null;
+    private IDeviceCommunication deviceCommunication = null;
 
     private Button startSwimmingSessionButton;
     private Button endSwimmingSessionButton;
@@ -28,7 +31,7 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
 
         else if (v == turnButton){
             if(sessionActive){
-
+                deviceCommunication.writeToDevice(deviceCommunication.getSwimmerTurnSignal());
             }
         }
 
@@ -51,12 +54,15 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
         backButton.setOnClickListener(this);
         turnButton = findViewById(R.id.turn_button);
         turnButton.setOnClickListener(this);
+
+        connectedDevice = ConnectedDevice.getInstance();
+        //TODO check if deviceCommunication is null
+        deviceCommunication = getIntent().getExtras().getParcelable("CommunicationChannel");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        connectedDevice = ConnectedDevice.getInstance();
         Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
         if(connectedDevice == null){ showToast("mDeviceView == null");}
     }

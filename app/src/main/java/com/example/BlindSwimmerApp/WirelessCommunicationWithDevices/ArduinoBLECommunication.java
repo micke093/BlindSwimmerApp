@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
+import android.os.Parcel;
 import android.util.Log;
 
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
@@ -30,17 +31,17 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     * Writes information to a Arduino Nano 33 with BLE
     * */
     @Override
-    public void WriteToDevice(Object dataToSend) {
-        Log.d(TAG, "Gatt service: " + selectedArduinoService.getUuid() + ", Data to send: " + dataToSend.toString());
+    public void writeToDevice(String dataToSend) {
+        Log.d(TAG, "Gatt service: " + selectedArduinoService.getUuid() + ", Data to send: " + dataToSend);
         if(selectedArduinoService != null){
             BluetoothGattCharacteristic characteristic =
                     selectedGattDevice.getService(selectedArduinoService.getUuid()).getCharacteristic(selectedArduinoService.getUuid());
             characteristic.setValue(dataToSend.toString());
-            Log.d(TAG, "WriteToDevice: characteristics value: " + characteristic.getStringValue(0));
+            Log.d(TAG, "writeToDevice: characteristics value: " + characteristic.getStringValue(0));
             selectedGattDevice.writeCharacteristic(characteristic);
         }
         else{
-            Log.d(TAG, "WriteToDevice: Gatt service is null");
+            Log.d(TAG, "writeToDevice: Gatt service is null");
         }
     }
 
@@ -170,4 +171,15 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     public String getBluetoothBeaconTwoSetName() {
         return BLUETOOTH_BEACON_TWO_SET_NAME;
     }
+
+    @Override
+    public String getSwimmerTurnSignal() {
+        return SWIMMER_TURN_SIGNAL;
+    }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {}
 }

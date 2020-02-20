@@ -33,7 +33,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     private EditText textInputBluetoothBeaconTwo;
 
     private Button backButton;
-    //TODO rename to more appropriate name, since we do not actually train in the activity.
     private Button trainButton;
     private Button submitSensorButton;
     private Button readFromConnectedDeviceButton;
@@ -45,9 +44,10 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
         if(v == trainButton) {
-            startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
-            deviceCommunication.WriteToDevice(deviceCommunication.getChangeModeToTrainMode());
-            //TODO send mode change to device
+            deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToTrainMode());
+            Intent intent = new Intent(DeviceActivity.this, TrainActivity.class);
+            intent.putExtra("CommunicationChannel", deviceCommunication);
+            startActivity(intent);
         }
 
         else if(v == backButton) startActivity(new Intent(DeviceActivity.this, MainActivity.class));
@@ -62,34 +62,28 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
             /*
             * Set the names of the two bluetooth beacons the device should listen for
             * */
-            if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty())
-            {
-                Log.d(TAG, "onClick: Sensor one: " + sensorInputOne + " Sensor two: " + sensorInputTwo);
-                deviceCommunication.WriteToDevice(deviceCommunication.getBluetoothBeaconOneSetName() + sensorInputOne);
+            if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty()) {
+
+                deviceCommunication.writeToDevice(deviceCommunication.getBluetoothBeaconOneSetName() + sensorInputOne);
                 //Wait to send second sensor name since device can't read if sent to fast.
-                try {
-                    TimeUnit.MILLISECONDS.sleep(150);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                deviceCommunication.WriteToDevice(deviceCommunication.getBluetoothBeaconTwoSetName() + sensorInputTwo);
+
+                try { TimeUnit.MILLISECONDS.sleep(150); }
+                catch (InterruptedException e) { e.printStackTrace(); }
+
+                deviceCommunication.writeToDevice(deviceCommunication.getBluetoothBeaconTwoSetName() + sensorInputTwo);
                 //TODO maybe implement confirmation on sensor name update.
             }
-            else
-            { showToast("Please enter sensor name"); }
+            else { showToast("Please enter sensor name"); }
         }
     }
 
-    //========================= Private classes =========================================
+    //============================ PRIVATE FUNCTIONS =========================================
 
     private void connect() {
-        if (connectedDevice != null) {
-            Log.d(TAG, "Connect: Connected device is: " + connectedDevice.getName());
-            deviceCommunication.connectToDevice(connectedDevice, this);
-        }
+        if (connectedDevice != null) { deviceCommunication.connectToDevice(connectedDevice, this); }
     }
 
-    //============== SETUP FUNCTION FOR ANDROID APPLICATION =============================
+    //==================== SETUP FUNCTIONS FOR ANDROID APPLICATION ====================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +102,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         textInputBluetoothBeaconOne = findViewById(R.id.editTextSensorOne);
         textInputBluetoothBeaconTwo = findViewById(R.id.editTextSensorTwo);
 
+        connectedDevice = ConnectedDevice.getInstance();
         deviceCommunication = new ArduinoBLECommunication();
     }
 
@@ -115,21 +110,15 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
-        connectedDevice = ConnectedDevice.getInstance();
         Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
         if (connectedDevice != null) {
             if(deviceName != null)
             {
                 deviceName.setText(connectedDevice.getName());
-                if(connectedDevice.getName() == null)
-                {
-                    deviceName.setText("No set name (null)");
-                }
-                Log.d(TAG, "Device name är: " + deviceName);
+                if(connectedDevice.getName() == null) deviceName.setText("No set name (null)");
+                Log.d(TAG, "Device name is: " + deviceName);
                 connect();
             }
-            else
-            { showToast("mDeviceView == null"); }
         }
     }
 
