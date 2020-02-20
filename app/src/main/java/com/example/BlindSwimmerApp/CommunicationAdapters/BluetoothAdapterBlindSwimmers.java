@@ -3,6 +3,9 @@ package com.example.BlindSwimmerApp.CommunicationAdapters;
 import android.bluetooth.BluetoothAdapter;
 
 public class BluetoothAdapterBlindSwimmers implements ICommunicationAdapter {
+    /**
+     *An Interface that gives information about the different BT statuses of a device
+     **/
 
     private BluetoothAdapter ba;
 

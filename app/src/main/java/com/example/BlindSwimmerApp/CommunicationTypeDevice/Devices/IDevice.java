@@ -4,6 +4,10 @@ import android.content.Context;
 
 public interface IDevice<E> {
 
+    /**
+     *General methods for devices
+     **/
+
     String getName();
 
     String getAddress();

@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Handler mHandler;
     private int RSSI;
 
+    /**
+     *Requests permissions to access wireless communication on the users device
+     **/
     private void initWirelessCommunication() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             showToast("BLE is not supported");
@@ -78,8 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // callback for ActivityCompat.requestPermissions
-    @Override
+    /**
+     *Callback for permission request calls
+     **/    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -91,7 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // callback for request to turn on BT
+    /**
+     *Callback for request to turn on BT
+     **/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // if user chooses not to enable Bluetooth.
@@ -102,7 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    // device selected, start DeviceActivity (displaying data)
+    /**
+     *Selects device on specific index in list of devices and sends the user to DeviceActivity
+     **/
     private void onDeviceSelected(int position) {
 
         StringBuilder sb = new StringBuilder();
@@ -121,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+    /**
+     *Scans the environment for BLE-devices
+     **/
     private void scanForDevices(final boolean enable) {
         if (communicationAdapter.isDiscovering()) {
             communicationAdapter.cancelDiscovery();
@@ -211,6 +222,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toast.show();
     }
 
+
+    /**
+     *Puts found devices in a list of bluetooth devices
+     **/
     private void startScanBluetooth() {
         final BroadcastReceiver bReceiver = new BroadcastReceiver() {
             @Override

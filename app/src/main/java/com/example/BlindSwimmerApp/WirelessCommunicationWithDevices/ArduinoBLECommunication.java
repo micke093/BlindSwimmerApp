@@ -101,7 +101,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
     /**
-     * All the asynschronous BT-callbacks. They handle the communication between the devices
+     * All the BT-callbacks. They handle the communication between the devices asynschronous.
      * */
     public BluetoothGattCallback Callbacks() {
         return new BluetoothGattCallback() {

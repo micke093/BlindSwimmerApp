@@ -5,6 +5,10 @@ import android.bluetooth.BluetoothGattCallback;
 import android.content.Context;
 
 public class BluetoothDeviceImp implements IDevice {
+    /**
+     *Modelling class for BT-devices
+     **/
+
 
     private BluetoothDevice device;
 
