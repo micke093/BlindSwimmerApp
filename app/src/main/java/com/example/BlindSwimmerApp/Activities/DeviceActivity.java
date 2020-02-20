@@ -103,12 +103,17 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         finish();
     }
 
+
+    /**
+     *Connects to a BLE device
+     **/
     private void connect() {
         if (connectedDevice != null) {
             Log.d(TAG, "Connect: Connected device is: " + connectedDevice.getName());
             deviceCommunication.connectToDevice(connectedDevice, this);
         }
     }
+
 
     protected void showToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
