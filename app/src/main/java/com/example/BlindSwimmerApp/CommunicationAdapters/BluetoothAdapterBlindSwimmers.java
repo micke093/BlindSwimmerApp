@@ -11,22 +11,22 @@ public class BluetoothAdapterBlindSwimmers implements ICommunicationAdapter {
     }
 
     @Override
-    public boolean startDiscovery() {
+    public boolean startDiscoveryOfWirelessDevices() {
         return ba.startDiscovery();
     }
 
     @Override
-    public boolean isDiscovering() {
+    public boolean isDiscoveringWirelessDevices() {
         return ba.isDiscovering();
     }
 
     @Override
-    public boolean cancelDiscovery() {
+    public boolean cancelDiscoveryOfWirelessDevices() {
         return ba.cancelDiscovery();
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isReadyToBeUsed() {
         return ba.isEnabled();
     }
 

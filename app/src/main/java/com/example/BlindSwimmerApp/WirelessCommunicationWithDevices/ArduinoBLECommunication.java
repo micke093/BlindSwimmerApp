@@ -1,6 +1,5 @@
 package com.example.BlindSwimmerApp.WirelessCommunicationWithDevices;
 
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -11,7 +10,6 @@ import android.util.Log;
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 public class ArduinoBLECommunication implements IDeviceCommunication {
@@ -26,6 +24,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     public ArduinoBLECommunication() {
         receivedData = new ArrayList<>();
     }
+
 
     /**
     * Writes information to a Arduino Nano 33 with BLE
@@ -79,10 +78,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             }
         }
 
-        if(arduinoService == null)
-        {
-            Log.d(TAG, "Could not find a matching service UUID name.");
-        }
+        if(arduinoService == null) Log.d(TAG, "Could not find a matching service UUID name.");
         else {
             selectedArduinoService = arduinoService;
             this.selectedGattDevice = gatt;
@@ -126,9 +122,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                     String st = new String(rd);
                     Log.d(TAG, "onCharacteristicRead: String: " + st);
                     receivedData.add(st);
-                } else{
-                    Log.d(TAG, "No data received");
-                }
+                } else Log.d(TAG, "No data received");
             }
         };
     }
@@ -149,5 +143,31 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         }
         //TODO check if successful
         return true;
+    }
+
+
+    @Override
+    public String getChangeModeToConnectingMode() {
+        return CHANGE_MODE_TO_CONNECTING_MODE;
+    }
+
+    @Override
+    public String getChangeModeToRunningMode() {
+        return CHANGE_MODE_TO_RUNNING_MODE;
+    }
+
+    @Override
+    public String getChangeModeToTrainMode() {
+        return CHANGE_MODE_TO_TRAIN_MODE;
+    }
+
+    @Override
+    public String getBluetoothBeaconOneSetName() {
+        return BLUETOOTH_BEACON_ONE_SET_NAME;
+    }
+
+    @Override
+    public String getBluetoothBeaconTwoSetName() {
+        return BLUETOOTH_BEACON_TWO_SET_NAME;
     }
 }

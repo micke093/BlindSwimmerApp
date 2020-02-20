@@ -2,13 +2,13 @@ package com.example.BlindSwimmerApp.CommunicationAdapters;
 
 public interface ICommunicationAdapter {
 
-    boolean startDiscovery();
+    boolean startDiscoveryOfWirelessDevices();
 
-    boolean isDiscovering();
+    boolean isDiscoveringWirelessDevices();
 
-    boolean cancelDiscovery();
+    boolean cancelDiscoveryOfWirelessDevices();
 
-    boolean isEnabled();
+    boolean isReadyToBeUsed();
 
     String actionRequestEnable();
 }

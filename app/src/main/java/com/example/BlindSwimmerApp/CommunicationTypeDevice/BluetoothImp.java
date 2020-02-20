@@ -15,10 +15,7 @@ public class BluetoothImp implements ICommunicationTypeDevice {
     }
 
     @Override
-    public int getRSSIValueFromIntent(Intent intent) {
-        int RSSI = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE);
-        return RSSI;
-    }
+    public int getRSSIValueFromIntent(Intent intent) { return intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, Short.MIN_VALUE); }
 
     @Override
     public String actionFound() {

@@ -26,84 +26,61 @@ import java.util.concurrent.TimeUnit;
  * leave the activity (the BluetoothGatt is disconnected and closed in activity.onStop).
  */
 public class DeviceActivity extends AppCompatActivity implements View.OnClickListener {
-
     private static final String TAG = "DeviceActivity";
 
-    private TextView mDeviceName;
-    //private TextView mDeviceOtherInfo;
-    private TextView mDeviceRSSI;
-    private EditText mTextInputSensorOne;
-    private EditText mTextInputSensorTwo;
+    private TextView deviceName;
+    private EditText textInputBluetoothBeaconOne;
+    private EditText textInputBluetoothBeaconTwo;
 
     private Button backButton;
+    //TODO rename to more appropriate name, since we do not actually train in the activity.
     private Button trainButton;
     private Button submitSensorButton;
+    private Button readFromConnectedDeviceButton;
 
     private IDeviceCommunication deviceCommunication = null;
-
-    //TODO maybe move to another new class? So device is exchangeable
     private IDevice connectedDevice = null;
 
-    @SuppressLint("SetTextI18n")
     @Override
-    protected void onStart() {
-        super.onStart();
-        connectedDevice = ConnectedDevice.getInstance();
-        Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
-        if (connectedDevice != null) {
-            if(mDeviceName != null)
+    public void onClick(View v) {
+
+        if(v == trainButton) {
+            startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
+            deviceCommunication.WriteToDevice(deviceCommunication.getChangeModeToTrainMode());
+            //TODO send mode change to device
+        }
+
+        else if(v == backButton) startActivity(new Intent(DeviceActivity.this, MainActivity.class));
+
+        else if(v == readFromConnectedDeviceButton) deviceCommunication.startAsynchronousReadFromSelectedDevice();
+
+        else if(v == submitSensorButton)
+        {
+            String sensorInputOne = textInputBluetoothBeaconOne.getText().toString();
+            String sensorInputTwo = textInputBluetoothBeaconTwo.getText().toString();
+
+            /*
+            * Set the names of the two bluetooth beacons the device should listen for
+            * */
+            if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty())
             {
-                mDeviceName.setText(connectedDevice.getName());
-                if(connectedDevice.getName() == null)
-                {
-                    mDeviceName.setText("No set name (null)");
+                Log.d(TAG, "onClick: Sensor one: " + sensorInputOne + " Sensor two: " + sensorInputTwo);
+                deviceCommunication.WriteToDevice(deviceCommunication.getBluetoothBeaconOneSetName() + sensorInputOne);
+                //Wait to send second sensor name since device can't read if sent to fast.
+                try {
+                    TimeUnit.MILLISECONDS.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                //get the RSSI value
-                mDeviceRSSI.setText("" + getIntent().getExtras().getInt("RSSIValue", 0));
-                String deviceName = (String) getIntent().getExtras().get("deviceName");
-                Log.d(TAG, "Device name är: " + deviceName);
-                //mDeviceOtherInfo.setText("None");
-                connect();
+                deviceCommunication.WriteToDevice(deviceCommunication.getBluetoothBeaconTwoSetName() + sensorInputTwo);
+                //TODO maybe implement confirmation on sensor name update.
             }
             else
-            {
-                showToast("mDeviceView == null");
-            }
+            { showToast("Please enter sensor name"); }
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device);
-
-        trainButton = findViewById(R.id.train_button);
-        mDeviceName = findViewById(R.id.textDeviceName);
-        //mDeviceOtherInfo = findViewById(R.id.textOther);
-        mDeviceRSSI = findViewById(R.id.textDeviceRSSI);
-        mTextInputSensorOne = findViewById(R.id.editTextSensorOne);
-        mTextInputSensorTwo = findViewById(R.id.editTextSensorTwo);
-
-        submitSensorButton = findViewById(R.id.submitSensorButton);
-        backButton = findViewById(R.id.buttonBack);
-        backButton.setText("Back");
-
-        submitSensorButton.setOnClickListener(this);
-        backButton.setOnClickListener(this);
-        trainButton.setOnClickListener(this);
-
-        deviceCommunication = new ArduinoBLECommunication();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        deviceCommunication.disconnectFromDevice();
-        ConnectedDevice.removeInstance();
-        connectedDevice = null;
-        finish();
-    }
+    //========================= Private classes =========================================
 
     private void connect() {
         if (connectedDevice != null) {
@@ -112,44 +89,60 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    protected void showToast(String msg) {
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
-        toast.show();
+    //============== SETUP FUNCTION FOR ANDROID APPLICATION =============================
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_device);
+
+        trainButton = findViewById(R.id.train_button);
+        trainButton.setOnClickListener(this);
+        backButton = findViewById(R.id.buttonBack);
+        backButton.setOnClickListener(this);
+        submitSensorButton = findViewById(R.id.submitSensorButton);
+        submitSensorButton.setOnClickListener(this);
+        readFromConnectedDeviceButton = findViewById(R.id.read_data_button);
+        readFromConnectedDeviceButton.setOnClickListener(this);
+
+        deviceName = findViewById(R.id.textDeviceName);
+        textInputBluetoothBeaconOne = findViewById(R.id.editTextSensorOne);
+        textInputBluetoothBeaconTwo = findViewById(R.id.editTextSensorTwo);
+
+        deviceCommunication = new ArduinoBLECommunication();
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void onStart() {
+        super.onStart();
+        connectedDevice = ConnectedDevice.getInstance();
+        Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
+        if (connectedDevice != null) {
+            if(deviceName != null)
+            {
+                deviceName.setText(connectedDevice.getName());
+                if(connectedDevice.getName() == null)
+                {
+                    deviceName.setText("No set name (null)");
+                }
+                Log.d(TAG, "Device name är: " + deviceName);
+                connect();
+            }
+            else
+            { showToast("mDeviceView == null"); }
+        }
     }
 
     @Override
-    public void onClick(View v) {
+    protected void onStop() {
+        super.onStop();
+        deviceCommunication.disconnectFromDevice();
+        connectedDevice = null;
+        finish();
+    }
 
-        if(v==trainButton){
-            //startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
-            deviceCommunication.startAsynchronousReadFromSelectedDevice();
-        }
-
-        else if(v==backButton){
-            startActivity(new Intent(DeviceActivity.this, MainActivity.class));
-        }
-
-        else if(v==submitSensorButton)
-        {
-            String sensorInputOne = mTextInputSensorOne.getText().toString();
-            String sensorInputTwo = mTextInputSensorTwo.getText().toString();
-
-            if(!sensorInputOne.isEmpty() && !sensorInputTwo.isEmpty())
-            {
-                Log.d(TAG, "onClick: Sensor one: " + sensorInputOne + " Sensor two: " + sensorInputTwo);
-                deviceCommunication.WriteToDevice("SN_1" + sensorInputOne);
-                //Wait to send second sensor name since arduino can't read if sent to fast.
-                try {
-                    TimeUnit.MILLISECONDS.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                deviceCommunication.WriteToDevice("SN_2" + sensorInputTwo);
-            }
-            else
-            {
-                showToast("Please enter sensor name");
-            }
-        }
+    protected void showToast(String msg) {
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }
