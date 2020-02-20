@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int RSSI;
 
     /**
-     *Requests permissions to access wireless communication on the users device
+     * Requests permissions to access wireless communication on the users device
      **/
     private void initWirelessCommunication() {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
@@ -82,8 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *Callback for permission request calls
-     **/    @Override
+     * Callback for permission request calls
+     **/
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *Callback for request to turn on BT
+     * Callback for request to turn on BT
      **/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *Selects device on specific index in list of devices and sends the user to DeviceActivity
+     * Selects device on specific index in list of devices and sends the user to DeviceActivity
      **/
     private void onDeviceSelected(int position) {
 
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     /**
-     *Scans the environment for BLE-devices
+     * Scans the environment for BLE-devices
      **/
     private void scanForDevices(final boolean enable) {
         if (communicationAdapter.isDiscovering()) {
@@ -201,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initWirelessCommunication();
         devices.clear();
         scanForDevices(true);
-        startScanBluetooth();
+        setupRegisterReceiver();
         communicationAdapter.startDiscovery();
     }
 
@@ -224,46 +225,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     *Puts found devices in a list of bluetooth devices
+     * Puts found devices in a list of bluetooth devices
      **/
-    private void startScanBluetooth() {
-        final BroadcastReceiver bReceiver = new BroadcastReceiver() {
+    private void setupRegisterReceiver() {
+        this.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (communicationDevice.foundCorrectAction(intent)) {
-                    //Log.d(TAG, "Before setting a device.");
-                    IDevice temp = new BluetoothDeviceImp();
-                    temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
-                    RSSI = communicationDevice.getRSSIValueFromIntent(intent);
-                    //Log.d(TAG, "onReceive: " + RSSI);
-
-                    if (temp.getName() != null){
-                        String deviceName = temp.getName();
-                        if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
-                            Log.d(TAG, "Device name is: " + deviceName);
-
-                            devices.add(temp);
-
-                            arrayAdapter.notifyDataSetChanged();
-                            String msg = getString(R.string.found_devices_msg, devices.size());
-                            mScanInfoView.setText(msg);
-                            Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
-
-
-
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = 0; i < devices.size(); i++) {
-                                sb.append(" device name: ");
-                                sb.append(devices.get(i).getName());
-                            }
-                            Log.d(TAG, "onReceived: List of devices" + sb.toString());
-                        }
+                IDevice temp = new BluetoothDeviceImp();
+                temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
+                if (temp.getName() != null) {
+                    String deviceName = temp.getName();
+                    if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
+                        devices.add(temp);
+                        arrayAdapter.notifyDataSetChanged();
+                        String msg = getString(R.string.found_devices_msg, devices.size());
+                        mScanInfoView.setText(msg);
+                        Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
                     }
-                    //Log.d(TAG, ". New Device found in scan: " + device.getName() + ", Address: " + device.getAddress());
                 }
             }
-        };
-        this.registerReceiver(bReceiver, new IntentFilter(communicationDevice.actionFound()));
+        }, new IntentFilter(communicationDevice.actionFound()));
     }
 
     @Override
