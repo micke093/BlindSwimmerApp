@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.ConnectedDevice;
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.IDevice;
 import com.example.BlindSwimmerApp.R;
-import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
 
 public class TrainActivity extends AppCompatActivity implements View.OnClickListener {

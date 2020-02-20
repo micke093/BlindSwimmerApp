@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
@@ -181,5 +182,20 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     public int describeContents() { return 0; }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {}
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeArray(new Object[]{this});
+    }
+
+    private static final Parcelable.Creator CREATOR = new Parcelable.Creator<ArduinoBLECommunication>(){
+
+        @Override
+        public ArduinoBLECommunication createFromParcel(Parcel parcel) {
+            return (ArduinoBLECommunication) parcel.readValue(getClass().getClassLoader());
+        }
+
+        @Override
+        public ArduinoBLECommunication[] newArray(int i) {
+            return new ArduinoBLECommunication[0];
+        }
+    };
 }
