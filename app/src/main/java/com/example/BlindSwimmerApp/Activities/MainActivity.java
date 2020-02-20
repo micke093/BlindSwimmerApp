@@ -78,14 +78,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startScanForWirelessDevices() {
-        final BroadcastReceiver bReceiver = new BroadcastReceiver() {
+        this.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (communicationDevice.foundCorrectAction(intent)) {
                     IDevice temp = new BluetoothDeviceImp();
                     temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));
 
-                    if (temp.getName() != null){
+                    if (temp.getName() != null) {
                         String deviceName = temp.getName();
                         if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
                             devices.add(temp);
@@ -97,8 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             }
-        };
-        this.registerReceiver(bReceiver, new IntentFilter(communicationDevice.actionFound()));
+        }, new IntentFilter(communicationDevice.actionFound()));
     }
 
     private void scanForDevices(final boolean enable) {
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-    
+
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
         ConnectedDevice.setInstance(devices.get(position));
@@ -194,7 +193,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // TODO: what do we need to do here?
-            } else { showToast("Bluetooth is required for this application to work"); }
+            } else {
+                showToast("Bluetooth is required for this application to work");
+            }
         }
     }
 

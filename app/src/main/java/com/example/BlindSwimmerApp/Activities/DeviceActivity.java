@@ -45,9 +45,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         if(v == trainButton) {
             deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToTrainMode());
-            Intent intent = new Intent(DeviceActivity.this, TrainActivity.class);
-            intent.putExtra("CommunicationChannel", deviceCommunication);
-            startActivity(intent);
+            startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
         }
 
         else if(v == backButton) startActivity(new Intent(DeviceActivity.this, MainActivity.class));
@@ -103,7 +101,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         textInputBluetoothBeaconTwo = findViewById(R.id.editTextSensorTwo);
 
         connectedDevice = ConnectedDevice.getInstance();
-        deviceCommunication = new ArduinoBLECommunication();
+        deviceCommunication = ArduinoBLECommunication.getInstance();
     }
 
     @SuppressLint("SetTextI18n")

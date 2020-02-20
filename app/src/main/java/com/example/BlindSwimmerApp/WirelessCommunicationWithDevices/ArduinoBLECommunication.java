@@ -5,8 +5,6 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.BluetoothDeviceImp;
@@ -18,12 +16,14 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     private static final String TAG = "ArduinoBLECommunication";
 
+    private static ArduinoBLECommunication instance = new ArduinoBLECommunication();
     private final String arduinoUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
     private BluetoothGatt selectedGattDevice = null;
     private BluetoothGattService selectedArduinoService = null;
     private ArrayList<String> receivedData;
 
-    public ArduinoBLECommunication() {
+    public static ArduinoBLECommunication getInstance(){ return instance; }
+    private ArduinoBLECommunication() {
         receivedData = new ArrayList<>();
     }
 
@@ -107,7 +107,11 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     @Override
     public boolean disconnectFromDevice() {
-        if (selectedGattDevice != null) { selectedGattDevice.close(); }
+        if (selectedGattDevice != null) {
+            selectedGattDevice.close();
+            selectedGattDevice = null;
+            selectedArduinoService = null;
+        }
         //TODO check if successful
         return true;
     }
@@ -136,10 +140,6 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     public String getSwimmerTurnSignal() {
         return SWIMMER_TURN_SIGNAL;
     }
-    @Override
-    public int describeContents() { return 0; }
-    @Override
-    public void writeToParcel(Parcel parcel, int i) { parcel.writeArray(new Object[]{this}); }
 
     //============================ PRIVATE FUNCTIONS =========================================
 
@@ -171,17 +171,4 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
         }
     }
-
-    private static final Parcelable.Creator CREATOR = new Parcelable.Creator<ArduinoBLECommunication>(){
-
-        @Override
-        public ArduinoBLECommunication createFromParcel(Parcel parcel) {
-            return (ArduinoBLECommunication) parcel.readValue(getClass().getClassLoader());
-        }
-
-        @Override
-        public ArduinoBLECommunication[] newArray(int i) {
-            return new ArduinoBLECommunication[0];
-        }
-    };
 }

@@ -1,9 +1,8 @@
 package com.example.BlindSwimmerApp.WirelessCommunicationWithDevices;
 
 import android.content.Context;
-import android.os.Parcelable;
 
-public interface IDeviceCommunication<E> extends Parcelable {
+public interface IDeviceCommunication<E>{
 
     void writeToDevice(String dataToSend);
 
