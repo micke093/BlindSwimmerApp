@@ -3,12 +3,11 @@ package com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCallback;
 import android.content.Context;
+/**
+ *Modelling class for BT-devices
+ **/
 
 public class BluetoothDeviceImp implements IDevice {
-    /**
-     *Modelling class for BT-devices
-     **/
-
 
     private BluetoothDevice device;
 
@@ -38,6 +37,10 @@ public class BluetoothDeviceImp implements IDevice {
         return device.toString();
     }
 
+
+    /**
+     *Returns a connection to the device with the specified callbacks
+     **/
     @Override
     public Object getConnection(Context context, Object callbacks) {
         return device.connectGatt(context, false, (BluetoothGattCallback) callbacks);

@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.ConnectedDevice;
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.CurrentConnectedDevice;
 import com.example.BlindSwimmerApp.DeviceArrayAdapter;
 import com.example.BlindSwimmerApp.CommunicationAdapters.BluetoothAdapterBlindSwimmers;
 import com.example.BlindSwimmerApp.CommunicationAdapters.ICommunicationAdapter;
@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Log.d(TAG, "onDeviceSelected: List of devices" + sb.toString() + " Position selected: " + position);
 
-        ConnectedDevice.setInstance(devices.get(position));
-        Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
+        CurrentConnectedDevice.setInstance(devices.get(position));
+        Log.d(TAG, "Selected device: " + CurrentConnectedDevice.getInstance().getName());
 
         Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
         intent.putExtra("deviceName", device.getName()); //send the device name value forward to DeviceActivity to catch
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     * Puts found devices in a list of bluetooth devices
+     *Filters BT-devices for Arduinos and puts them in a list
      **/
     private void setupRegisterReceiver() {
         this.registerReceiver(new BroadcastReceiver() {

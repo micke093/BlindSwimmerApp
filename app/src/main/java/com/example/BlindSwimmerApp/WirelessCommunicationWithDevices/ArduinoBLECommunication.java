@@ -28,7 +28,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
     /**
-    * Provides a way to write information to a Arduino Nano 33 with BLE.
+    * Provides a way to write information to a Arduino through BLE.
     * */
     @Override
     public void WriteToDevice(Object dataToSend) {
@@ -45,7 +45,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
      /**
-     * Provides a way to read data from the selected device.
+     * Provides a way to read data through BLE from the selected Arduino.
      **/
     @Override
     public void startAsynchronousReadFromSelectedDevice() {
@@ -56,7 +56,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
 
     /**
-     * Retruns the data read from the BTLE-device.
+     * Returns the data read from the Arduino.
      * */
     @Override
     public String getReadDataFromDevice() {
@@ -65,7 +65,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
 
     /**
-     * Sets the selected ArduinoDevice as the current device
+     * Sets the selected Arduino as the current service
      * */
     private void SetSelectedArduinoService(BluetoothGatt gatt){
         Log.d(TAG, "Services discovered");
@@ -101,7 +101,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     }
 
     /**
-     * All the BT-callbacks. They handle the communication between the devices asynschronous.
+    * BT-callbacks, they handle the communication between the devices asynchronous.
      * */
     public BluetoothGattCallback Callbacks() {
         return new BluetoothGattCallback() {
@@ -148,7 +148,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     /**
      *Connects to bluetooth device
-     * */
+     **/
     @Override
     public boolean connectToDevice(Object device, Context context) {
         BluetoothDeviceImp temp = (BluetoothDeviceImp) device;
@@ -160,7 +160,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
 
     /**
-     *Closes BLE connection if there is no device
+     *Closes BLE connection to device
      **/
     @Override
     public boolean disconnectFromDevice() {

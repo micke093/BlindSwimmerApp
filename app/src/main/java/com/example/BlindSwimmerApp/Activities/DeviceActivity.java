@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.CurrentConnectedDevice;
 import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.IDevice;
-import com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices.ConnectedDevice;
 import com.example.BlindSwimmerApp.R;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
 import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
@@ -46,7 +46,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
-        connectedDevice = ConnectedDevice.getInstance();
+        connectedDevice = CurrentConnectedDevice.getInstance();
         Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
         if (connectedDevice != null) {
             if(mDeviceName != null)
@@ -98,7 +98,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     protected void onStop() {
         super.onStop();
         deviceCommunication.disconnectFromDevice();
-        ConnectedDevice.removeInstance();
+        CurrentConnectedDevice.removeInstance();
         connectedDevice = null;
         finish();
     }

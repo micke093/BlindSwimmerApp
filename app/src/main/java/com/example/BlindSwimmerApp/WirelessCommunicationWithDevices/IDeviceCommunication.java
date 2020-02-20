@@ -1,11 +1,12 @@
 package com.example.BlindSwimmerApp.WirelessCommunicationWithDevices;
 
 import android.content.Context;
+/**
+ *Interface for device communication
+ **/
 
 public interface IDeviceCommunication<E> {
-    /**
-     *General methods for device communication
-     **/
+
 
     void WriteToDevice(E dataToSend);
 

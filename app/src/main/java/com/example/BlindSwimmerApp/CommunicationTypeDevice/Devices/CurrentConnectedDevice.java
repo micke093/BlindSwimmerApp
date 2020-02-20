@@ -3,23 +3,28 @@ package com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices;
 import android.util.Log;
 
 /**
- * An ugly hack to administrate the selected Bluetooth device
- * between activities.
+ * Administration of the selected Wireless device between activities.
  */
-public class ConnectedDevice {
+public class CurrentConnectedDevice {
 
-    private final static String TAG = "ConnectedDevice";
+    private final static String TAG = "CurrentConnectedDevice";
     private static IDevice theDevice = null;
     private static final Object lock = new Object();
 
-    private ConnectedDevice() { }
+    private CurrentConnectedDevice() { }
 
+    /**
+    *Returns the current device being used
+     */
     public static IDevice getInstance() {
         synchronized(lock) {
             return theDevice;
         }
     }
 
+    /**
+     *Sets the current device
+     */
     public static void setInstance(IDevice newDevice) {
         synchronized(lock) {
             theDevice = newDevice;
@@ -27,6 +32,9 @@ public class ConnectedDevice {
         }
     }
 
+    /**
+     *Removes the current device
+     */
     public static void removeInstance() {
         synchronized(lock) {
             theDevice = null;

@@ -5,7 +5,7 @@ import android.content.Context;
 public interface IDevice<E> {
 
     /**
-     *General methods for devices
+     *General methods for wireless devices
      **/
 
     String getName();
