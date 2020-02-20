@@ -41,9 +41,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             Log.d(TAG, "writeToDevice: characteristics value: " + characteristic.getStringValue(0));
             selectedGattDevice.writeCharacteristic(characteristic);
         }
-        else{
-            Log.d(TAG, "writeToDevice: Gatt service is null");
-        }
+        else{ Log.d(TAG, "writeToDevice: Gatt service is null"); }
     }
 
     @Override
@@ -56,36 +54,6 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     @Override
     public String getReadDataFromDevice() {
         return "";
-    }
-
-    private void SetSelectedArduinoService(BluetoothGatt gatt){
-        Log.d(TAG, "Services discovered");
-        BluetoothGattService arduinoService = null;
-        List<BluetoothGattService> services = gatt.getServices();
-
-        Log.d(TAG, "Number of services found: " + services.size());
-
-        for (BluetoothGattService service : services) {
-            String uuid = service.getUuid().toString();
-            Log.d(TAG, "service: " + uuid);
-
-            //Unique for every Arduino
-            //TODO change so it is not hardcoded. Maybe get and store the UUID when specifying sensors with phone
-            //maybe a list of uuid or a standardised naming convention
-            if(uuid.equals(arduinoUuid))
-            {
-                arduinoService = service;
-                Log.d(TAG, "Found matching uuid");
-                break;
-            }
-        }
-
-        if(arduinoService == null) Log.d(TAG, "Could not find a matching service UUID name.");
-        else {
-            selectedArduinoService = arduinoService;
-            this.selectedGattDevice = gatt;
-            Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
-        }
     }
 
     public BluetoothGattCallback Callbacks() {
@@ -117,7 +85,6 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             }
 
             @Override
-            //TODO change so it reads from characteristics and adds the values to an array
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
                 byte[] rd = characteristic.getValue();
                 if(rd != null || rd.length != 0){
@@ -140,50 +107,69 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
 
     @Override
     public boolean disconnectFromDevice() {
-        if (selectedGattDevice != null) {
-            selectedGattDevice.close();
-        }
+        if (selectedGattDevice != null) { selectedGattDevice.close(); }
         //TODO check if successful
         return true;
     }
-
 
     @Override
     public String getChangeModeToConnectingMode() {
         return CHANGE_MODE_TO_CONNECTING_MODE;
     }
-
     @Override
     public String getChangeModeToRunningMode() {
         return CHANGE_MODE_TO_RUNNING_MODE;
     }
-
     @Override
     public String getChangeModeToTrainMode() {
         return CHANGE_MODE_TO_TRAIN_MODE;
     }
-
     @Override
     public String getBluetoothBeaconOneSetName() {
         return BLUETOOTH_BEACON_ONE_SET_NAME;
     }
-
     @Override
     public String getBluetoothBeaconTwoSetName() {
         return BLUETOOTH_BEACON_TWO_SET_NAME;
     }
-
     @Override
     public String getSwimmerTurnSignal() {
         return SWIMMER_TURN_SIGNAL;
     }
-
     @Override
     public int describeContents() { return 0; }
-
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeArray(new Object[]{this});
+    public void writeToParcel(Parcel parcel, int i) { parcel.writeArray(new Object[]{this}); }
+
+    //============================ PRIVATE FUNCTIONS =========================================
+
+    private void SetSelectedArduinoService(BluetoothGatt gatt){
+        Log.d(TAG, "Services discovered");
+        BluetoothGattService arduinoService = null;
+        List<BluetoothGattService> services = gatt.getServices();
+
+        Log.d(TAG, "Number of services found: " + services.size());
+
+        for (BluetoothGattService service : services) {
+            String uuid = service.getUuid().toString();
+            Log.d(TAG, "service: " + uuid);
+
+            //Unique for every Arduino
+            //TODO change so it is not hardcoded. Maybe get and store the UUID when specifying sensors with phone
+            //maybe a list of uuid or a standardised naming convention
+            if(uuid.equals(arduinoUuid)) {
+                arduinoService = service;
+                Log.d(TAG, "Found matching uuid");
+                break;
+            }
+        }
+
+        if(arduinoService == null) Log.d(TAG, "Could not find a matching service UUID name.");
+        else {
+            selectedArduinoService = arduinoService;
+            this.selectedGattDevice = gatt;
+            Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
+        }
     }
 
     private static final Parcelable.Creator CREATOR = new Parcelable.Creator<ArduinoBLECommunication>(){

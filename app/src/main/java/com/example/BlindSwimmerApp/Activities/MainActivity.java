@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-
+    
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
         ConnectedDevice.setInstance(devices.get(position));
@@ -136,10 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //==================== SETUP FUNCTIONS FOR ANDROID APPLICATION ====================
-    /**
-     * Below: Manage activity, and hence bluetooth, life cycle,
-     * via onCreate, onStart and onStop.
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
