@@ -14,7 +14,7 @@ import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommu
 public class TrainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String TAG = "Trainactivity";
-    private boolean sessionActive;
+    private boolean sessionActive = true;
     private IDeviceCommunication deviceCommunication = null;
 
     private Button startSwimmingSessionButton;
@@ -24,16 +24,20 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (v == startSwimmingSessionButton) sessionActive = true;
-
-        else if (v == turnButton){
+        if (v == turnButton){
             if(sessionActive){
                 deviceCommunication.writeToDevice(deviceCommunication.getSwimmerTurnSignal());
                 Log.d(TAG, "onClick: After write to device");
             }
         }
 
-        else if(v == endSwimmingSessionButton) sessionActive = false;
+        else if (v == startSwimmingSessionButton) {
+            sessionActive = true;
+        }
+        //TODO should we get the data when we end a session?
+        else if(v == endSwimmingSessionButton) {
+            sessionActive = false;
+        }
         else if(v == backButton) finish();
     }
 
@@ -59,6 +63,13 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         sessionActive = true;
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToConnectingMode());
+        //TODO implement getting info from device for the session.
     }
 
     protected void showToast(String msg) {

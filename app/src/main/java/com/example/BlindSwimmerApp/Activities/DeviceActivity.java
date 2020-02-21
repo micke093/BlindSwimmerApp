@@ -48,12 +48,13 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
         }
 
-        else if(v == backButton) startActivity(new Intent(DeviceActivity.this, MainActivity.class));
-
+        else if(v == backButton) {
+            deviceCommunication.disconnectFromDevice();
+            connectedDevice = null;
+            startActivity(new Intent(DeviceActivity.this, MainActivity.class));
+        }
         else if(v == readFromConnectedDeviceButton) deviceCommunication.startAsynchronousReadFromSelectedDevice();
-
-        else if(v == submitSensorButton)
-        {
+        else if(v == submitSensorButton) {
             String sensorInputOne = textInputBluetoothBeaconOne.getText().toString();
             String sensorInputTwo = textInputBluetoothBeaconTwo.getText().toString();
 
@@ -76,7 +77,6 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //============================ PRIVATE FUNCTIONS =========================================
-
     private void connect() {
         if (connectedDevice != null) { deviceCommunication.connectToDevice(connectedDevice, this); }
     }
@@ -123,9 +123,14 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStop() {
         super.onStop();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         deviceCommunication.disconnectFromDevice();
         connectedDevice = null;
-        finish();
     }
 
     protected void showToast(String msg) {
