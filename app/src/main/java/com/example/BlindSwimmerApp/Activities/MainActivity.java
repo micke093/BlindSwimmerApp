@@ -161,9 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanListView.setAdapter(arrayAdapter);
         scanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                onDeviceSelected(position);
-            }
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) { onDeviceSelected(position); }
         });
     }
 
@@ -193,9 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == REQUEST_ACCESS_LOCATION) {// if request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // TODO: what do we need to do here?
-            } else {
-                showToast("Bluetooth is required for this application to work");
-            }
+            } else { showToast("Bluetooth is required for this application to work"); }
         }
     }
 
@@ -216,6 +212,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
-    }
+    public void onClick(View v) { }
 }

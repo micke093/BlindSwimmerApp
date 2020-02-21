@@ -6,9 +6,7 @@ public class BluetoothAdapterBlindSwimmers implements ICommunicationAdapter {
 
     private BluetoothAdapter ba;
 
-    public BluetoothAdapterBlindSwimmers(){
-        ba = BluetoothAdapter.getDefaultAdapter();
-    }
+    public BluetoothAdapterBlindSwimmers(){ ba = BluetoothAdapter.getDefaultAdapter(); }
 
     @Override
     public boolean startDiscoveryOfWirelessDevices() {

@@ -15,9 +15,7 @@ public class ConnectedDevice {
         synchronized(lock) { return device; }
     }
 
-    public static void setInstance(IDevice newDevice) {
-        synchronized(lock) { device = newDevice; }
-    }
+    public static void setInstance(IDevice newDevice) { synchronized(lock) { device = newDevice; } }
 
     public static void removeInstance() {
         synchronized(lock) { device = null; }
