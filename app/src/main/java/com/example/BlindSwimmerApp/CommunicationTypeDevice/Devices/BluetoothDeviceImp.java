@@ -10,17 +10,13 @@ public class BluetoothDeviceImp implements IDevice {
 
     @Override
     public String getName() {
-        if (device != null){
-            return device.getName();
-        }
+        if (device != null){ return device.getName(); }
         return null;
     }
 
     @Override
     public String getAddress() {
-        if (device != null){
-            return device.getAddress();
-        }
+        if (device != null){ return device.getAddress(); }
         return null;
     }
 

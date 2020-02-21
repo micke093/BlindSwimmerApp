@@ -1,46 +1,76 @@
 package com.example.BlindSwimmerApp.Activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.BlindSwimmerApp.R;
+import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.ArduinoBLECommunication;
+import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommunication;
 
 public class TrainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button submitButton;
+    private final static String TAG = "Trainactivity";
+    private boolean sessionActive = true;
+    private IDeviceCommunication deviceCommunication = null;
+
+    private Button startSwimmingSessionButton;
+    private Button endSwimmingSessionButton;
     private Button backButton;
+    private Button turnButton;
 
+    @Override
+    public void onClick(View v) {
+        if (v == turnButton){
+            if(sessionActive){
+                deviceCommunication.writeToDevice(deviceCommunication.getSwimmerTurnSignal());
+                Log.d(TAG, "onClick: After write to device");
+            }
+        }
 
+        else if (v == startSwimmingSessionButton) {
+            sessionActive = true;
+        }
+        //TODO should we get the data when we end a session?
+        else if(v == endSwimmingSessionButton) {
+            sessionActive = false;
+        }
+        else if(v == backButton) finish();
+    }
+
+    //============== SETUP FUNCTION FOR ANDROID APPLICATION =============================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train);
 
-        submitButton = findViewById(R.id.submit_button);
+        startSwimmingSessionButton = findViewById(R.id.start_session_swimming_button);
+        startSwimmingSessionButton.setOnClickListener(this);
+        endSwimmingSessionButton = findViewById(R.id.end_session_swimming_button);
+        endSwimmingSessionButton.setOnClickListener(this);
         backButton = findViewById(R.id.back_button);
-
-        submitButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
+        turnButton = findViewById(R.id.turn_button);
+        turnButton.setOnClickListener(this);
 
-        System.out.println("TRAIN ACTIVITY!!!");
+        deviceCommunication = ArduinoBLECommunication.getInstance();
     }
 
     @Override
-    public void onClick(View v) {
-
-        if(v == submitButton){
-            showToast("Data submitted");
-        }
-
-        if(v == backButton){
-            finish();
-        }
-
+    protected void onStart() {
+        super.onStart();
+        sessionActive = true;
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToConnectingMode());
+        //TODO implement getting info from device for the session.
+    }
 
     protected void showToast(String msg) {
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
