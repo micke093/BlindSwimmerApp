@@ -22,11 +22,18 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     private BluetoothGattService selectedArduinoService = null;
     private ArrayList<String> receivedData;
 
+    private boolean isConnectedToDevice = false;
+
     public static ArduinoBLECommunication getInstance(){ return instance; }
     private ArduinoBLECommunication() {
         receivedData = new ArrayList<>();
     }
 
+
+    @Override
+    public boolean isConnectedToDevice() {
+        return isConnectedToDevice;
+    }
 
     /**
     * Writes information to a Arduino Nano 33 with BLE
@@ -65,10 +72,12 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
                     //Async function to discover the service on the remote device
                     //triggers the onServicesDiscovered callback method.
                     gatt.discoverServices();
+                    //isConnectedToDevice = true;
 
                 } else if (state == BluetoothGatt.STATE_DISCONNECTED || state == BluetoothGatt.STATE_DISCONNECTING) {
                     ArduinoBLECommunication.this.selectedGattDevice = null;
                     Log.d(TAG, "Device disconnected");
+                    isConnectedToDevice = false;
                 }
             }
 
@@ -141,6 +150,16 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         return SWIMMER_TURN_SIGNAL;
     }
 
+    @Override
+    public String getSwimmerSendTimestamp() {
+        return SWIMMER_SEND_TIMESTAMP;
+    }
+
+    @Override
+    public String getSwimmerClearSdcard() {
+        return SWIMMER_CLEAR_SDCARD;
+    }
+
     //============================ PRIVATE FUNCTIONS =========================================
 
     private void SetSelectedArduinoService(BluetoothGatt gatt){
@@ -169,6 +188,9 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             selectedArduinoService = arduinoService;
             this.selectedGattDevice = gatt;
             Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
+
+            //now it is actually connected to device
+            isConnectedToDevice = true;
         }
     }
 }
