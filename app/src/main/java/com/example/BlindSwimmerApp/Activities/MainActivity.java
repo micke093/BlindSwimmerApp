@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ICommunicationTypeDevice communicationDevice;
     private ArrayList<IDevice> devices;
     private DeviceArrayAdapter arrayAdapter;
+
+    private ListView scanListView;
+
+    private Button startScanButton;
 
     private boolean scanning;
     private TextView scanInfoView;
@@ -140,30 +145,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        devices = new ArrayList<>();
+        arrayAdapter = new DeviceArrayAdapter(this, devices);
+
         handler = new Handler();
         scanInfoView = findViewById(R.id.scanInfo);
 
         communicationAdapter = new BluetoothAdapterBlindSwimmers();
         communicationDevice = new BluetoothImp();
-        devices = new ArrayList<>();
 
-        Button startScanButton = findViewById(R.id.startScanButton);
-        startScanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                devices.clear();
-                scanForDevices(true);
-            }
-        });
-        ListView scanListView = findViewById(R.id.scanListView);
+        startScanButton = findViewById(R.id.startScanButton);
+        startScanButton.setOnClickListener(this);
 
-        arrayAdapter = new DeviceArrayAdapter(this, devices);
+        scanListView = findViewById(R.id.scanListView);
         scanListView.setAdapter(arrayAdapter);
         scanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) { onDeviceSelected(position); }
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) { onDeviceSelected(position);
+
+                devices.clear();
+                arrayAdapter.clear();
+            }
         });
+
     }
+
+    @Override
+    public void onClick(View v) {
+
+        if(v == startScanButton){
+            scanForDevices(true);
+
+        }
+    }
+
+    private void clear(){
+
+
+    }
+
+
 
     @Override
     protected void onStart() {
@@ -210,7 +232,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         toast.show();
     }
-
-    @Override
-    public void onClick(View v) { }
 }

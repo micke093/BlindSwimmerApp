@@ -45,6 +45,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
 
         if(v == trainButton) {
             deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToTrainMode());
+
             startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
         }
 
@@ -72,13 +73,24 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
                 deviceCommunication.writeToDevice(deviceCommunication.getBluetoothBeaconTwoSetName() + sensorInputTwo);
                 //TODO maybe implement confirmation on sensor name update.
             }
-            else { showToast("Please enter sensor name"); }
+            else { showToast("Please enter sensor name");
+
+            }
         }
     }
 
     //============================ PRIVATE FUNCTIONS =========================================
-    private void connect() {
-        if (connectedDevice != null) { deviceCommunication.connectToDevice(connectedDevice, this); }
+    private boolean connect() {
+        if (connectedDevice != null)
+            return deviceCommunication.connectToDevice(connectedDevice, this);
+
+        return true;
+    }
+
+    private long getTimeStamp(){
+
+        return java.util.Calendar.getInstance().getTimeInMillis();
+
     }
 
     //==================== SETUP FUNCTIONS FOR ANDROID APPLICATION ====================
@@ -115,7 +127,20 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
                 deviceName.setText(connectedDevice.getName());
                 if(connectedDevice.getName() == null) deviceName.setText("No set name (null)");
                 Log.d(TAG, "Device name is: " + deviceName);
+
                 connect();
+                while(!deviceCommunication.isConnectedToDevice())
+                {
+                    //wait for connection to be made
+                }
+
+                long timeStamp = getTimeStamp();
+                String ts = Long.toString(timeStamp);
+
+                String sendString = deviceCommunication.getSwimmerSendTimestamp() + ts;
+
+                deviceCommunication.writeToDevice(sendString);
+                Log.d(TAG, "onStart: has now sent " + sendString + " to device");
             }
         }
     }
