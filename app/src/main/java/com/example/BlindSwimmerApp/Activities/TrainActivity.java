@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.BlindSwimmerApp.R;
@@ -17,10 +18,13 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
     private boolean sessionActive = true;
     private IDeviceCommunication deviceCommunication = null;
 
-    private Button startSwimmingSessionButton;
-    private Button endSwimmingSessionButton;
+    private Button resetButton;
     private Button backButton;
     private Button turnButton;
+    private Button pauseButton;
+    private Button sendButton;
+
+    private TextView inputText;
 
     @Override
     public void onClick(View v) {
@@ -31,11 +35,27 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        else if (v == startSwimmingSessionButton) {
-            sessionActive = true;
+        if(v==resetButton){
+            deviceCommunication.writeToDevice(deviceCommunication.getSwimmerClearSdcard());
         }
+
+        if(v==pauseButton){
+            deviceCommunication.writeToDevice(deviceCommunication.getSwimmerPause());
+        }
+
+        if(v==sendButton){
+            String message = inputText.getText().toString();
+
+            if(message.isEmpty())
+                System.out.println("The message is empty!");
+
+            showToast("Message sent");
+
+            deviceCommunication.writeToDevice(deviceCommunication.getHeaderMessage() + message);
+        }
+
         //TODO should we get the data when we end a session?
-        else if(v == endSwimmingSessionButton) {
+        else if(v == resetButton) {
             sessionActive = false;
         }
         else if(v == backButton) finish();
@@ -47,14 +67,20 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train);
 
-        startSwimmingSessionButton = findViewById(R.id.start_session_swimming_button);
-        startSwimmingSessionButton.setOnClickListener(this);
-        endSwimmingSessionButton = findViewById(R.id.end_session_swimming_button);
-        endSwimmingSessionButton.setOnClickListener(this);
+        inputText = findViewById(R.id.inputText);
+
+
+        sendButton = findViewById(R.id.send_button);
+        pauseButton = findViewById(R.id.pause_button);
+        resetButton = findViewById(R.id.reset_button);
         backButton = findViewById(R.id.back_button);
-        backButton.setOnClickListener(this);
         turnButton = findViewById(R.id.turn_button);
+
         turnButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        resetButton.setOnClickListener(this);
+        pauseButton.setOnClickListener(this);
+        sendButton.setOnClickListener(this);
 
         deviceCommunication = ArduinoBLECommunication.getInstance();
     }

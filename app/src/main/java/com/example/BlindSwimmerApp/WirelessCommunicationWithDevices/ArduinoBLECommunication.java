@@ -21,6 +21,7 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     private BluetoothGatt selectedGattDevice = null;
     private BluetoothGattService selectedArduinoService = null;
     private ArrayList<String> receivedData;
+    private String headerMessage;
 
     private boolean isConnectedToDevice = false;
 
@@ -159,6 +160,17 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
     public String getSwimmerClearSdcard() {
         return SWIMMER_CLEAR_SDCARD;
     }
+
+    @Override
+    public String getSwimmerPause() {
+        return SWIMMER_PAUSE;
+    }
+
+    @Override
+    public String getHeaderMessage() {
+        return HEADER_MESSAGE;
+    }
+
 
     //============================ PRIVATE FUNCTIONS =========================================
 
