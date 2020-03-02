@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (temp.getName() != null) {
                         String deviceName = temp.getName();
                         if (deviceName.startsWith("Arduino Swimmer")) {
-                            if(!devices.contains(temp)){
+                            if(!isDeviceInList(temp)){
                                 devices.add(temp);
                                 arrayAdapter.notifyDataSetChanged();
                                 String msg = getString(R.string.found_devices_msg, devices.size());
@@ -141,6 +140,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
         Log.d(TAG, "Number of devices in list: " + devices.size());
         startActivity(new Intent(MainActivity.this, DeviceActivity.class));
+    }
+
+    private boolean isDeviceInList(IDevice iDevice){
+        for (int i = 0; i < devices.size(); i++){
+            if(devices.get(i).getName().equals(iDevice.getName())) return true;
+        }
+        return false;
     }
 
     //==================== SETUP FUNCTIONS FOR ANDROID APPLICATION ====================

@@ -50,9 +50,9 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
             deviceCommunication.writeToDevice(deviceCommunication.getHeaderMessage() + message);
         }
 
-        if(v == resumeButton){
-            deviceCommunication.writeToDevice(deviceCommunication.getResume());
-        }
+        //if(v == resumeButton){ deviceCommunication.writeToDevice(deviceCommunication.getResume()); }
+        //TODO should we get the data when we end a session?
+        else if(v == resetButton) { sessionActive = false; }
 
         //TODO should we get the data when we end a session?
         else if(v == resetButton) { sessionActive = false; }
@@ -71,7 +71,7 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
         resetButton = findViewById(R.id.reset_button);
         backButton = findViewById(R.id.back_button);
         turnButton = findViewById(R.id.turn_button);
-        resumeButton = findViewById(R.id.resume_button);
+        //resumeButton = findViewById(R.id.resume_button);
 
         turnButton.setOnClickListener(this);
         backButton.setOnClickListener(this);

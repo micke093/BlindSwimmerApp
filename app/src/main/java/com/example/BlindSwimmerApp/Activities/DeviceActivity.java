@@ -123,12 +123,12 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
             Log.d(TAG, "Device name is: " + deviceName);
 
             connect();
-            //while(!deviceCommunication.isConnectedToDevice()) {/*wait for connection to be made*/}
-            //long timeStamp = getTimeStamp();
-            //String ts = Long.toString(timeStamp);
-            //String sendString = deviceCommunication.getSwimmerSendTimestamp() + ts;
-            //deviceCommunication.writeToDevice(sendString);
-            //Log.d(TAG, "onStart: has now sent " + sendString + " to device");
+            while(!deviceCommunication.isConnectedToDevice()) {/*wait for connection to be made*/}
+            long timeStamp = getTimeStamp();
+            String ts = Long.toString(timeStamp);
+            String sendString = deviceCommunication.getSwimmerSendTimestamp() + ts;
+            deviceCommunication.writeToDevice(sendString);
+            Log.d(TAG, "onStart: has now sent " + sendString + " to device");
         }
     }
 

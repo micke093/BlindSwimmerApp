@@ -6,23 +6,17 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="main_ac" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="_activity" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e450193b-4019-49f2-b913-841edc24688e" name="Default Changelist" comment="Sending timestamp to Arduino">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/ConnectedDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/ConnectedDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DistanceCalculations/IDistanceCalculation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/ArduinoBLECommunication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/ArduinoBLECommunication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/IDeviceCommunication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/IDeviceCommunication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/BluetoothDeviceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/BluetoothDeviceImp.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
