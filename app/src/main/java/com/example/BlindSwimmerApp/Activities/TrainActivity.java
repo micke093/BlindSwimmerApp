@@ -1,5 +1,6 @@
 package com.example.BlindSwimmerApp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,7 +15,7 @@ import com.example.BlindSwimmerApp.WirelessCommunicationWithDevices.IDeviceCommu
 
 public class TrainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final static String TAG = "Trainactivity";
+    private final static String TAG = "Train_Activity";
     private boolean sessionActive = true;
     private IDeviceCommunication deviceCommunication = null;
 
@@ -35,30 +36,19 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        if(v==resetButton){
-            deviceCommunication.writeToDevice(deviceCommunication.getSwimmerClearSdcard());
-        }
-
-        if(v==pauseButton){
-            deviceCommunication.writeToDevice(deviceCommunication.getSwimmerPause());
-        }
+        if(v==resetButton){ deviceCommunication.writeToDevice(deviceCommunication.getSwimmerClearSdcard()); }
+        if(v==pauseButton){ deviceCommunication.writeToDevice(deviceCommunication.getSwimmerPause()); }
 
         if(v==sendButton){
             String message = inputText.getText().toString();
-
-            if(message.isEmpty())
-                System.out.println("The message is empty!");
-
+            if(message.isEmpty()) System.out.println("The message is empty!");
             showToast("Message sent");
-
             deviceCommunication.writeToDevice(deviceCommunication.getHeaderMessage() + message);
         }
 
         //TODO should we get the data when we end a session?
-        else if(v == resetButton) {
-            sessionActive = false;
-        }
-        else if(v == backButton) finish();
+        else if(v == resetButton) { sessionActive = false; }
+        else if(v == backButton) onBackPressed();
     }
 
     //============== SETUP FUNCTION FOR ANDROID APPLICATION =============================
@@ -68,8 +58,6 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_train);
 
         inputText = findViewById(R.id.inputText);
-
-
         sendButton = findViewById(R.id.send_button);
         pauseButton = findViewById(R.id.pause_button);
         resetButton = findViewById(R.id.reset_button);
@@ -89,13 +77,24 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
         sessionActive = true;
+        Log.d(TAG, "onStart: TrainActivity");
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToConnectingMode());
+        Log.d(TAG, "onDestroy train activity");
+        deviceCommunication.writeToDevice(deviceCommunication.getChangeToConnectingMode());
         //TODO implement getting info from device for the session.
+        startActivity(new Intent(TrainActivity.this, DeviceActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "onBackPressed train activity");
+        //deviceCommunication.writeToDevice(deviceCommunication.getChangeToConnectingMode());
+        //startActivity(new Intent(TrainActivity.this, DeviceActivity.class));
     }
 
     protected void showToast(String msg) {

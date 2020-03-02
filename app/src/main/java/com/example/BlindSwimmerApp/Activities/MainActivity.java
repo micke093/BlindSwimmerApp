@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final String TAG = "MAIN";
+    private final String TAG = "Main_Activity";
     private static final int REQUEST_ENABLE_BT = 1000;
     private static final int REQUEST_ACCESS_LOCATION = 1001;
     private static final long SCAN_PERIOD = 5000;
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DeviceArrayAdapter arrayAdapter;
 
     private ListView scanListView;
-
     private Button startScanButton;
 
     private boolean scanning;
@@ -92,12 +91,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (temp.getName() != null) {
                         String deviceName = temp.getName();
-                        if (!devices.contains(temp) && deviceName.startsWith("Arduino Swimmer")) {
-                            devices.add(temp);
-                            arrayAdapter.notifyDataSetChanged();
-                            String msg = getString(R.string.found_devices_msg, devices.size());
-                            scanInfoView.setText(msg);
-                            Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
+                        if (deviceName.startsWith("Arduino Swimmer")) {
+                            if(!devices.contains(temp)){
+                                devices.add(temp);
+                                arrayAdapter.notifyDataSetChanged();
+                                String msg = getString(R.string.found_devices_msg, devices.size());
+                                scanInfoView.setText(msg);
+                                Log.d(TAG, "Swimmer found as: " + temp.getName() + ", Address: " + temp.getAddress());
+                            }
+                            else{ Log.d(TAG, "device already in list"); }
                         }
                     }
                 }
@@ -135,7 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // device selected, start DeviceActivity (displaying data)
     private void onDeviceSelected(int position) {
         ConnectedDevice.setInstance(devices.get(position));
+        scanForDevices(false);
         Log.d(TAG, "Selected device: " + ConnectedDevice.getInstance().getName());
+        Log.d(TAG, "Number of devices in list: " + devices.size());
         startActivity(new Intent(MainActivity.this, DeviceActivity.class));
     }
 
@@ -163,35 +167,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) { onDeviceSelected(position);
-
                 devices.clear();
                 arrayAdapter.clear();
             }
         });
-
     }
 
     @Override
     public void onClick(View v) {
-
-        if(v == startScanButton){
-            scanForDevices(true);
-
-        }
+        if(v == startScanButton){ scanForDevices(true); }
     }
-
-    private void clear(){
-
-
-    }
-
-
 
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart: MainActivity");
         initWirelessCommunication();
-        devices.clear();
+        if(devices != null){
+            devices.clear();
+        }
         scanForDevices(true);
         startScanForWirelessDevices();
         communicationAdapter.startDiscoveryOfWirelessDevices();
@@ -205,6 +199,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         arrayAdapter.notifyDataSetChanged();
         // stop scanning
         communicationAdapter.cancelDiscoveryOfWirelessDevices();
+        devices.clear();
+        arrayAdapter.clear();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     // callback for ActivityCompat.requestPermissions

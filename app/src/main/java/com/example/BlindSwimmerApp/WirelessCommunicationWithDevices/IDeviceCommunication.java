@@ -18,11 +18,9 @@ public interface IDeviceCommunication<E>{
 
     boolean disconnectFromDevice();
 
-
-
-    String CHANGE_MODE_TO_CONNECTING_MODE = "mode_0";
-    String CHANGE_MODE_TO_TRAIN_MODE = "mode_1";
-    String CHANGE_MODE_TO_RUNNING_MODE = "mode_2";
+    String CHANGE_TO_CONNECTING_MODE = "mode_0";
+    String CHANGE_TO_TRAIN_MODE = "mode_1";
+    String CHANGE_TO_RUNNING_MODE = "mode_2";
     String BLUETOOTH_BEACON_ONE_SET_NAME = "SN_1";
     String BLUETOOTH_BEACON_TWO_SET_NAME = "SN_2";
     String SWIMMER_TURN_SIGNAL = "T";
@@ -31,11 +29,9 @@ public interface IDeviceCommunication<E>{
     String SWIMMER_PAUSE = "PAUSE";
     String HEADER_MESSAGE = "HEADER_MSG";
 
-
-
-    String getChangeModeToConnectingMode();
-    String getChangeModeToRunningMode();
-    String getChangeModeToTrainMode();
+    String getChangeToConnectingMode();
+    String getChangeToRunningMode();
+    String getChangeToTrainMode();
     String getBluetoothBeaconOneSetName();
     String getBluetoothBeaconTwoSetName();
     String getSwimmerTurnSignal();
@@ -43,6 +39,5 @@ public interface IDeviceCommunication<E>{
     String getSwimmerClearSdcard();
     String getSwimmerPause();
     String getHeaderMessage();
-
 }
 

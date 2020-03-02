@@ -15,21 +15,16 @@ import java.util.List;
 public class ArduinoBLECommunication implements IDeviceCommunication {
 
     private static final String TAG = "ArduinoBLECommunication";
+    private final String arduinoUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
 
     private static ArduinoBLECommunication instance = new ArduinoBLECommunication();
-    private final String arduinoUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
     private BluetoothGatt selectedGattDevice = null;
     private BluetoothGattService selectedArduinoService = null;
     private ArrayList<String> receivedData;
-    private String headerMessage;
-
     private boolean isConnectedToDevice = false;
 
+    private ArduinoBLECommunication() { receivedData = new ArrayList<>(); }
     public static ArduinoBLECommunication getInstance(){ return instance; }
-    private ArduinoBLECommunication() {
-        receivedData = new ArrayList<>();
-    }
-
 
     @Override
     public boolean isConnectedToDevice() {
@@ -126,52 +121,6 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
         return true;
     }
 
-    @Override
-    public String getChangeModeToConnectingMode() {
-        return CHANGE_MODE_TO_CONNECTING_MODE;
-    }
-    @Override
-    public String getChangeModeToRunningMode() {
-        return CHANGE_MODE_TO_RUNNING_MODE;
-    }
-    @Override
-    public String getChangeModeToTrainMode() {
-        return CHANGE_MODE_TO_TRAIN_MODE;
-    }
-    @Override
-    public String getBluetoothBeaconOneSetName() {
-        return BLUETOOTH_BEACON_ONE_SET_NAME;
-    }
-    @Override
-    public String getBluetoothBeaconTwoSetName() {
-        return BLUETOOTH_BEACON_TWO_SET_NAME;
-    }
-    @Override
-    public String getSwimmerTurnSignal() {
-        return SWIMMER_TURN_SIGNAL;
-    }
-
-    @Override
-    public String getSwimmerSendTimestamp() {
-        return SWIMMER_SEND_TIMESTAMP;
-    }
-
-    @Override
-    public String getSwimmerClearSdcard() {
-        return SWIMMER_CLEAR_SDCARD;
-    }
-
-    @Override
-    public String getSwimmerPause() {
-        return SWIMMER_PAUSE;
-    }
-
-    @Override
-    public String getHeaderMessage() {
-        return HEADER_MESSAGE;
-    }
-
-
     //============================ PRIVATE FUNCTIONS =========================================
 
     private void SetSelectedArduinoService(BluetoothGatt gatt){
@@ -200,9 +149,49 @@ public class ArduinoBLECommunication implements IDeviceCommunication {
             selectedArduinoService = arduinoService;
             this.selectedGattDevice = gatt;
             Log.d(TAG, "DeviceDiscovered: Gatt: " + this.selectedGattDevice.toString());
-
             //now it is actually connected to device
             isConnectedToDevice = true;
         }
+    }
+
+    @Override
+    public String getChangeToConnectingMode() {
+        return CHANGE_TO_CONNECTING_MODE;
+    }
+    @Override
+    public String getChangeToRunningMode() {
+        return CHANGE_TO_RUNNING_MODE;
+    }
+    @Override
+    public String getChangeToTrainMode() {
+        return CHANGE_TO_TRAIN_MODE;
+    }
+    @Override
+    public String getBluetoothBeaconOneSetName() {
+        return BLUETOOTH_BEACON_ONE_SET_NAME;
+    }
+    @Override
+    public String getBluetoothBeaconTwoSetName() {
+        return BLUETOOTH_BEACON_TWO_SET_NAME;
+    }
+    @Override
+    public String getSwimmerTurnSignal() {
+        return SWIMMER_TURN_SIGNAL;
+    }
+    @Override
+    public String getSwimmerSendTimestamp() {
+        return SWIMMER_SEND_TIMESTAMP;
+    }
+    @Override
+    public String getSwimmerClearSdcard() {
+        return SWIMMER_CLEAR_SDCARD;
+    }
+    @Override
+    public String getSwimmerPause() {
+        return SWIMMER_PAUSE;
+    }
+    @Override
+    public String getHeaderMessage() {
+        return HEADER_MESSAGE;
     }
 }
