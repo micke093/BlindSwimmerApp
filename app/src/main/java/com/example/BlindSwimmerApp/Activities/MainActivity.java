@@ -81,9 +81,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startScanForWirelessDevices() {
+        //TODO move BroadcastReciver to singelton, needs ICTD,
         this.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                //Log.d(TAG, "onReceive start");
                 if (communicationDevice.foundCorrectAction(intent)) {
                     IDevice temp = new BluetoothDeviceImp();
                     temp.set(intent.getParcelableExtra(communicationDevice.extraDevice()));

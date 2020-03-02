@@ -86,7 +86,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-    private long getTimeStamp(){ return java.util.Calendar.getInstance().getTimeInMillis(); }
+    private long getTimeStamp(){ return java.util.Calendar.getInstance().getTimeInMillis();}
 
    // private void
 
