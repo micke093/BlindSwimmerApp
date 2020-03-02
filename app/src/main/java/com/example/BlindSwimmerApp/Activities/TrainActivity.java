@@ -23,6 +23,10 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
     private Button turnButton;
     private Button pauseButton;
     private Button sendButton;
+    private Button resumeButton;
+
+    private int numberOfTimesPressed;
+
 
     private TextView inputText;
 
@@ -54,6 +58,10 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
             deviceCommunication.writeToDevice(deviceCommunication.getHeaderMessage() + message);
         }
 
+        if(v == resumeButton){
+            deviceCommunication.writeToDevice(deviceCommunication.getResume());
+        }
+
         //TODO should we get the data when we end a session?
         else if(v == resetButton) {
             sessionActive = false;
@@ -75,12 +83,14 @@ public class TrainActivity extends AppCompatActivity implements View.OnClickList
         resetButton = findViewById(R.id.reset_button);
         backButton = findViewById(R.id.back_button);
         turnButton = findViewById(R.id.turn_button);
+        resumeButton = findViewById(R.id.resume_button);
 
         turnButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
         pauseButton.setOnClickListener(this);
         sendButton.setOnClickListener(this);
+        resumeButton.setOnClickListener(this);
 
         deviceCommunication = ArduinoBLECommunication.getInstance();
     }
