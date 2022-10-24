@@ -1,8 +1,5 @@
 package com.example.BlindSwimmerApp.CommunicationTypeDevice.Devices;
 
-/**
- * An ugly hack to administrate the selected Bluetooth device between activities.
- */
 public class ConnectedDevice {
 
     private final static String TAG = "ConnectedDevice";

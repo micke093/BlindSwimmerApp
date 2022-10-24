@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * leave the activity (the BluetoothGatt is disconnected and closed in activity.onStop).
  */
 public class DeviceActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "DeviceActivity";
+    private static final String TAG = "Device_Activity";
 
     private TextView deviceName;
     private EditText textInputBluetoothBeaconOne;
@@ -44,7 +44,8 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
         if(v == trainButton) {
-            deviceCommunication.writeToDevice(deviceCommunication.getChangeModeToTrainMode());
+            deviceCommunication.writeToDevice(deviceCommunication.getChangeToTrainMode());
+
             startActivity(new Intent(DeviceActivity.this, TrainActivity.class));
         }
 
@@ -72,14 +73,22 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
                 deviceCommunication.writeToDevice(deviceCommunication.getBluetoothBeaconTwoSetName() + sensorInputTwo);
                 //TODO maybe implement confirmation on sensor name update.
             }
-            else { showToast("Please enter sensor name"); }
+            else { showToast("Please enter sensor name");
+
+            }
         }
     }
 
     //============================ PRIVATE FUNCTIONS =========================================
-    private void connect() {
-        if (connectedDevice != null) { deviceCommunication.connectToDevice(connectedDevice, this); }
+    private boolean connect() {
+        if (connectedDevice != null)
+            return deviceCommunication.connectToDevice(connectedDevice, this);
+        return true;
     }
+
+    private long getTimeStamp(){ return java.util.Calendar.getInstance().getTimeInMillis();}
+
+   // private void
 
     //==================== SETUP FUNCTIONS FOR ANDROID APPLICATION ====================
     @Override
@@ -108,15 +117,18 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: Connected device is: " + connectedDevice.getName());
-        if (connectedDevice != null) {
-            if(deviceName != null)
-            {
-                deviceName.setText(connectedDevice.getName());
-                if(connectedDevice.getName() == null) deviceName.setText("No set name (null)");
-                Log.d(TAG, "Device name is: " + deviceName);
-                connect();
-            }
+        Log.d(TAG, "onStart: DeviceActivity");
+        if (connectedDevice != null && !deviceCommunication.isConnectedToDevice()) {
+            deviceName.setText(connectedDevice.getName());
+            Log.d(TAG, "Device name is: " + deviceName);
+
+            connect();
+            while(!deviceCommunication.isConnectedToDevice()) {/*wait for connection to be made*/}
+            long timeStamp = getTimeStamp();
+            String ts = Long.toString(timeStamp);
+            String sendString = deviceCommunication.getSwimmerSendTimestamp() + ts;
+            deviceCommunication.writeToDevice(sendString);
+            Log.d(TAG, "onStart: has now sent " + sendString + " to device");
         }
     }
 
@@ -131,6 +143,7 @@ public class DeviceActivity extends AppCompatActivity implements View.OnClickLis
         super.onBackPressed();
         deviceCommunication.disconnectFromDevice();
         connectedDevice = null;
+        ConnectedDevice.removeInstance();
     }
 
     protected void showToast(String msg) {

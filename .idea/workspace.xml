@@ -6,32 +6,29 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="_activity" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e450193b-4019-49f2-b913-841edc24688e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
+    <list default="true" id="e450193b-4019-49f2-b913-841edc24688e" name="Default Changelist" comment="Sending timestamp to Arduino">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="isMigrated" value="true" />
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="27cbb1c9761c7ece" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -41,70 +38,6 @@
   </component>
   <component name="FavoritesManager">
     <favorites_list name="BluetoothSniffer-master" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="75" selection-start-line="75" selection-end-line="75" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#4311#4364#0" expanded="true" />
-                <element signature="e#6968#7164#0" expanded="true" />
-                <element signature="e#7163#7164#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1087">
-              <caret line="79" selection-start-line="79" selection-end-line="79" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="71" column="66" selection-start-line="71" selection-start-column="66" selection-end-line="71" selection-end-column="66" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/ArduinoBLECommunication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DistanceCalculations/IDistanceCalculation.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -116,12 +49,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>&quot;DEVICE NAME ÄR&quot;</find>
-      <find>ardu</find>
-      <find>device</find>
-      <find>deviceAc</find>
-      <find>deviceName</find>
-      <find>Device name är</find>
       <find>toast</find>
       <find>gatt</find>
       <find>Log</find>
@@ -146,6 +73,12 @@
       <find>extraDevice</find>
       <find>arduino</find>
       <find>p</find>
+      <find>writeToDevice</find>
+      <find>selected</find>
+      <find>selectedDevice</find>
+      <find>TIMESTAMP</find>
+      <find>TimeStamp</find>
+      <find>selectedGattDevice</find>
     </findStrings>
     <replaceStrings>
       <replace>deviceName</replace>
@@ -157,274 +90,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="SendBothSensorNames" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/TrainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/ReadDataActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_test.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/TestActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_read_data.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/TransmissionActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/device_item_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/.gitignore" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/DeviceCommunication/ArduinoCommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/DeviceCommunication/ArduinoNano33BLECommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/BluetoothCallbacks/BluetoothGattCallbacks.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/DeviceActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/DeviceCommunication/ArduinoBLECommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/DeviceCommunication/IDeviceCommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/BluetoothCallbacks/IBluetoothCallbacks.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/BluetoothCallbacks/BluetoothGattCallbacks.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DeviceActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DeviceCommunication/IDeviceCommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DeviceCommunication/ArduinoBLECommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationAdapters/BluetoothAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/BluetoothDevice.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/BluetoothDeviceImplementation.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/BTDeviceArrayAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/ConnectedDevice.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationAdapters/ICommunicationAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/IDevice.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DistanceCalculations/IDistanceCalculation.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_train.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/ICommunicationTypeDevice.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/BluetoothImp.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_device.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/IDeviceCommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/ArduinoBLECommunication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/BluetoothDeviceImp.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationAdapters/BluetoothAdapterBlindSwimmers.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/ConnectedDevice.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DeviceArrayAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
-  </component>
+  <component name="ProjectId" id="1YLH5QmxJygmMrNLeNZ3EhwXy3t" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="BlindSwimmerApp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="BlindSwimmerApp" type="462c0819:PsiDirectoryNode" />
-              <item name="Activities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="BlindSwimmerApp" type="462c0819:PsiDirectoryNode" />
-              <item name="CommunicationAdapters" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="BlindSwimmerApp" type="462c0819:PsiDirectoryNode" />
-              <item name="CommunicationTypeDevice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="BlindSwimmerApp" type="462c0819:PsiDirectoryNode" />
-              <item name="CommunicationTypeDevice" type="462c0819:PsiDirectoryNode" />
-              <item name="Devices" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BlindSwimmerApp" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="BlindSwimmerApp" type="462c0819:PsiDirectoryNode" />
-              <item name="WirelessCommunicationWithDevices" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="BlindSwimmerApp" type="58d84e3e:PackageViewProjectNode" />
-              <item name="app" type="616d4139:PackageViewModuleNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="58d84e3e:PackageViewProjectNode" />
-              <item name="app" type="616d4139:PackageViewModuleNode" />
-              <item name="com.example" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="58d84e3e:PackageViewProjectNode" />
-              <item name="app" type="616d4139:PackageViewModuleNode" />
-              <item name="com.example" type="1f31426a:PackageElementNode" />
-              <item name="BlindSwimmerApp" type="1f31426a:PackageElementNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Activities" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="CommunicationAdapters" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="CommunicationTypeDevice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="CommunicationTypeDevice" type="462c0819:PsiDirectoryNode" />
-              <item name="Devices" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="DistanceCalculations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="BlindSwimmerApp" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="WirelessCommunicationWithDevices" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="BlindSwimmerApp" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
-  </component>
   <component name="PropertiesComponent">
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="RF8MB3BXBQF" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-02-18T08:23:57.467Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowLogcat.ShowToolbar" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.17" />
@@ -471,8 +147,6 @@
       <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
       <option name="FORCE_STOP_RUNNING_APP" value="true" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
       <option name="DEBUGGER_TYPE" value="Auto" />
@@ -528,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581597985140</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Sending timestamp to Arduino">
+      <created>1582649159924</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1582649159924</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TodoView">
@@ -540,275 +221,36 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.49858356" visible="true" weight="0.17248322" />
-      <window_info id="Structure" order="2" sideWeight="0.50141644" side_tool="true" weight="0.17248322" />
-      <window_info id="Favorites" order="3" side_tool="true" weight="0.3295302" />
-      <window_info id="Build Variants" order="4" sideWeight="0.50141644" side_tool="true" weight="0.15771812" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="Designer" order="6" />
-      <window_info id="Resources Explorer" order="7" sideWeight="0.49858356" weight="0.3295302" />
-      <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" visible="true" weight="0.04249292" />
-      <window_info anchor="bottom" id="Logcat" order="1" weight="0.509915" />
-      <window_info anchor="bottom" id="TODO" order="2" weight="0.19121814" />
-      <window_info anchor="bottom" id="Debug" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="4" weight="0.3286119" />
-      <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="6" weight="0.3286119" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.20538244" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.3286119" />
-      <window_info anchor="bottom" id="Android Profiler" order="9" />
-      <window_info anchor="bottom" id="Find" order="10" weight="0.3286119" />
-      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Assistant" order="5" weight="0.0852349" />
-      <window_info anchor="right" id="Preview" order="6" weight="0.3295302" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.49858356" visible="true" weight="0.17248322" />
-      <window_info id="Structure" order="2" sideWeight="0.50141644" side_tool="true" weight="0.17248322" />
-      <window_info id="Favorites" order="3" side_tool="true" weight="0.3295302" />
-      <window_info id="Build Variants" order="4" sideWeight="0.50141644" side_tool="true" weight="0.15771812" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="Designer" order="6" />
-      <window_info id="Resources Explorer" order="7" sideWeight="0.49858356" weight="0.3295302" />
-      <window_info id="Capture Tool" order="8" />
-      <window_info anchor="bottom" id="Run" order="0" weight="0.398017" />
-      <window_info anchor="bottom" id="Logcat" order="1" visible="true" weight="0.19971672" />
-      <window_info anchor="bottom" id="TODO" order="2" weight="0.19121814" />
-      <window_info anchor="bottom" id="Debug" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="4" weight="0.3286119" />
-      <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="6" weight="0.3286119" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.20538244" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.3286119" />
-      <window_info anchor="bottom" id="Android Profiler" order="9" />
-      <window_info anchor="bottom" id="Find" order="10" weight="0.3286119" />
-      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Assistant" order="5" weight="0.0852349" />
-      <window_info anchor="right" id="Preview" order="6" weight="0.3295302" />
-    </layout-to-restore>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated gitignore and started on adding an interface for device communication" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated gitignore and started on adding an interface for device communication" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-34">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/TestActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bluetoothsniffer/TransmissionActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_test.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sniff.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/device_item_layout.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="18" column="48" selection-start-line="18" selection-start-column="48" selection-end-line="18" selection-end-column="48" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/BluetoothCallbacks/IBluetoothCallbacks.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/BluetoothCallbacks/BluetoothGattCallbacks.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/SniffActivity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_transmission.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/test/java/com/example/BlindSwimmerApp/ExampleUnitTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/androidTest/java/com/example/BlindSwimmerApp/ExampleInstrumentedTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="21" column="59" selection-start-line="21" selection-start-column="59" selection-end-line="21" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/IDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationAdapters/ICommunicationAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_device.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_train.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/ICommunicationTypeDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="4" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationAdapters/BluetoothAdapterBlindSwimmers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="87" selection-start-line="8" selection-start-column="87" selection-end-line="8" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/IDeviceCommunication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="36" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/ConnectedDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="99" selection-start-line="17" selection-start-column="99" selection-end-line="17" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DeviceArrayAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/BluetoothImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="35" lean-forward="true" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/CommunicationTypeDevice/Devices/BluetoothDeviceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="57" selection-start-line="18" selection-start-column="57" selection-end-line="18" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4311#4364#0" expanded="true" />
-            <element signature="e#6968#7164#0" expanded="true" />
-            <element signature="e#7163#7164#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/WirelessCommunicationWithDevices/ArduinoBLECommunication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/DistanceCalculations/IDistanceCalculation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/TrainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="71" column="66" selection-start-line="71" selection-start-column="66" selection-end-line="71" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/BlindSwimmerApp/Activities/DeviceActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1087">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <MESSAGE value="Sending timestamp to Arduino" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sending timestamp to Arduino" />
   </component>
 </project>
